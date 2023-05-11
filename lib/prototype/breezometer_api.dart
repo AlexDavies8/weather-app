@@ -1,34 +1,41 @@
-/// A simple API for accessing Ambee pollen data
-library ambee_api;
+/// A simple API for accessing Breezometer pollen data
+library breezometer_api;
 
 import 'dart:convert';
 
 import 'package:http/http.dart' as http;
 
-/// API class used to make requests to Ambee
-class AmbeeApi {
-  /// The Ambee API key to use for requests
-  final String apiKey;
+/// API class used to make requests to Breezometer
+class BreezometerAPI {
+  /// The Breezometer API key to use for requests
+  final String apiKey = "e27c63872fe7497188743c4c5fe9c26d";
 
-  const AmbeeApi(this.apiKey);
+  const BreezometerAPI();
 
-  /// Get pollen data at a given latitude and longitude
-  Future<PollenData> getPollenGeospatial(int latitude, int longitude) async {
-    var url = Uri.https("api.ambeedata.com", "/forecast/pollen/by-lat-lng",
-        {"lat": latitude, "lng": longitude});
-    return _getPollenInternal(url);
-  }
-
-  /// Get pollen data at a given place, given by name
-  Future<PollenData> getPollenPlacewise(String placename) {
+  // Get pollen data at a given latitude and longitude
+  Future<PollenData> getPollenGeospatial(int latitude, int longitude, [features]) async {
     var url = Uri.https(
-        "api.ambeedata.com", "/forecast/pollen/by-place", {"place": placename});
+        "api.breezometer.com",
+        "/pollen/v2/forecast/daily",
+        {
+          "lat": latitude,
+          "lon": longitude,
+          "key": apiKey,
+          "features": features,
+          "days": 5
+        });
     return _getPollenInternal(url);
   }
+
+  // /// Get pollen data at a given place, given by name
+  // Future<PollenData> getPollenPlacewise(String placename) {
+  //   var url = Uri.https("api.ambeedata.com", "/forecast/pollen/by-place", {"place": placename});
+  //   return _getPollenInternal(url);
+  // }
 
   Future<PollenData> _getPollenInternal(Uri url) async {
-    var headers = {"x-api-key": apiKey, "Content-type": "application/json"};
-    var response = await http.get(url, headers: headers);
+    // var headers = {"x-api-key": apiKey, "Content-type": "application/json"};
+    var response = await http.get(url);
     var json = jsonDecode(response.body);
     return PollenData.fromJson(json['data']);
   }

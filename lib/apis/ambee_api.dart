@@ -50,62 +50,101 @@ class AmbeeApi {
   }
 }
 
-/// Complete Pollen Data
 class PollenData {
-  final int time;
-  final int latitude;
-  final int longitude;
-  final PollenCount count;
-  final PollenRisk risk;
+  String message;
+  double lat;
+  double lng;
+  List<Datum> data;
 
-  PollenData(this.time, this.latitude, this.longitude, this.count, this.risk);
+  PollenData({
+      required this.message,
+      required this.lat,
+      required this.lng,
+      required this.data,
+  });
 
-  PollenData.fromJson(Map<String, dynamic> json)
-      : time = json['time'],
-        latitude = json['lat'],
-        longitude = json['lng'],
-        count = PollenCount.fromJson(json['Count']),
-        risk = PollenRisk.fromJson(json['Risk']);
+  factory PollenData.fromJson(Map<String, dynamic> json) => PollenData(
+      message: json["message"],
+      lat: json["lat"]?.toDouble(),
+      lng: json["lng"]?.toDouble(),
+      data: List<Datum>.from(json["data"].map((x) => Datum.fromJson(x))),
+  );
 }
 
-/// Pollen count data for classes of flora
-class PollenCount {
-  final int grass;
-  final int tree;
-  final int weed;
+class Datum {
+    Count count;
+    Risk risk;
+    int time;
+    DateTime updatedAt;
 
-  PollenCount(this.grass, this.tree, this.weed);
+    Datum({
+        required this.count,
+        required this.risk,
+        required this.time,
+        required this.updatedAt,
+    });
 
-  PollenCount.fromJson(Map<String, dynamic> json)
-      : grass = json['grass'],
-        tree = json['tree'],
-        weed = json['weed'];
+    factory Datum.fromJson(Map<String, dynamic> json) => Datum(
+        count: Count.fromJson(json["Count"]),
+        risk: Risk.fromJson(json["Risk"]),
+        time: json["time"],
+        updatedAt: DateTime.parse(json["updatedAt"]),
+    );
 }
 
-/// Pollen risk level data for classes of flora
-class PollenRisk {
-  final RiskLevel grass;
-  final RiskLevel tree;
-  final RiskLevel weed;
+class Count {
+    int grassPollen;
+    int treePollen;
+    int weedPollen;
 
-  PollenRisk(this.grass, this.tree, this.weed);
+    Count({
+        required this.grassPollen,
+        required this.treePollen,
+        required this.weedPollen,
+    });
 
-  PollenRisk.fromJson(Map<String, dynamic> json)
-      : grass = parseRiskLevel(json['grass']),
-        tree = parseRiskLevel(json['tree']),
-        weed = parseRiskLevel(json['weed']);
+    factory Count.fromJson(Map<String, dynamic> json) => Count(
+        grassPollen: json["grass_pollen"],
+        treePollen: json["tree_pollen"],
+        weedPollen: json["weed_pollen"],
+    );
 }
 
-enum RiskLevel { low, medium, high }
+class Risk {
+    Pollen grassPollen;
+    Pollen treePollen;
+    Pollen weedPollen;
 
-RiskLevel parseRiskLevel(String string) {
-  switch (string.toLowerCase()) {
-    case 'low':
-      return RiskLevel.low;
-    case 'medium':
-      return RiskLevel.medium;
-    case 'high':
-      return RiskLevel.high;
-  }
-  throw Error();
+    Risk({
+        required this.grassPollen,
+        required this.treePollen,
+        required this.weedPollen,
+    });
+
+    factory Risk.fromJson(Map<String, dynamic> json) => Risk(
+        grassPollen: pollenValues.map[json["grass_pollen"]]!,
+        treePollen: pollenValues.map[json["tree_pollen"]]!,
+        weedPollen: pollenValues.map[json["weed_pollen"]]!,
+    );
+}
+
+enum Pollen { LOW, MODERATE, HIGH, VERYHIGH }
+
+final pollenValues = EnumValues({
+    "Low": Pollen.LOW,
+    "Moderate": Pollen.MODERATE,
+    "High": Pollen.HIGH,
+    "Very High": Pollen.VERYHIGH
+});
+
+class EnumValues<T> {
+    Map<String, T> map;
+    late Map<T, String> reverseMap;
+
+    EnumValues(this.map);
+
+    Map<T, String> get reverse {
+        reverseMap = map.map((k, v) => MapEntry(v, k));
+        return reverseMap;
+    }
 }

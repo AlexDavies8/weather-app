@@ -23,11 +23,14 @@ class TodayWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final forecastBloc = BlocProvider.of<ForecastBloc>(context);
-    return StreamBuilder<List<PollenData>?>(
-      stream: forecastBloc.forecastStream,
-      builder: (context, snapshot) {
-        return Text(snapshot.data?[0].trees.toString() ?? "No Data");
-      }
+    return Scaffold(
+      appBar: AppBar(title: const Text("Home")),
+      body: StreamBuilder<List<PollenData>?>(
+        stream: forecastBloc.forecastStream,
+        builder: (context, snapshot) {
+          return Text(snapshot.data?[0].trees.toString() ?? "No Data");
+        }
+      )
     );
   }
 

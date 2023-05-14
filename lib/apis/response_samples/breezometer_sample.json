@@ -1,0 +1,143 @@
+{
+  "metadata": {
+    "start_date": "2023-05-11",
+    "end_date": "2023-05-13",
+    "location": {
+      "country": "France"
+    },
+    "types": {
+      "grass": {
+        "plants": ["graminales"]
+      },
+      "tree": {
+        "plants": [
+          "hazel",
+          "oak",
+          "alder",
+          "pine",
+          "cottonwood",
+          "birch",
+          "olive",
+          "ash"
+        ]
+      },
+      "weed": {
+        "plants": ["mugwort", "ragweed"]
+      }
+    }
+  },
+  "data": [
+    {
+      "date": "2023-05-11",
+      "index_id": "bpi",
+      "index_display_name": "BreezoMeter Pollen Index",
+      "types": {
+        "grass": {
+          "display_name": "Grass",
+          "in_season": true,
+          "data_available": true,
+          "index": {
+            "value": 2,
+            "category": "Low",
+            "color": "#84CF33"
+          }
+        },
+        "tree": {
+          "display_name": "Tree",
+          "in_season": true,
+          "data_available": true,
+          "index": {
+            "value": 1,
+            "category": "Very Low",
+            "color": "#009E3A"
+          }
+        },
+        "weed": {
+          "display_name": "Weed",
+          "in_season": false,
+          "data_available": false,
+          "index": {
+            "value": null,
+            "category": null,
+            "color": null
+          }
+        }
+      }
+    },
+    {
+      "date": "2023-05-12",
+      "index_id": "bpi",
+      "index_display_name": "BreezoMeter Pollen Index",
+      "types": {
+        "grass": {
+          "display_name": "Grass",
+          "in_season": true,
+          "data_available": true,
+          "index": {
+            "value": 1,
+            "category": "Very Low",
+            "color": "#009E3A"
+          }
+        },
+        "tree": {
+          "display_name": "Tree",
+          "in_season": true,
+          "data_available": true,
+          "index": {
+            "value": 1,
+            "category": "Very Low",
+            "color": "#009E3A"
+          }
+        },
+        "weed": {
+          "display_name": "Weed",
+          "in_season": false,
+          "data_available": false,
+          "index": {
+            "value": null,
+            "category": null,
+            "color": null
+          }
+        }
+      }
+    },
+    {
+      "date": "2023-05-13",
+      "index_id": "bpi",
+      "index_display_name": "BreezoMeter Pollen Index",
+      "types": {
+        "grass": {
+          "display_name": "Grass",
+          "in_season": true,
+          "data_available": true,
+          "index": {
+            "value": 2,
+            "category": "Low",
+            "color": "#84CF33"
+          }
+        },
+        "tree": {
+          "display_name": "Tree",
+          "in_season": true,
+          "data_available": true,
+          "index": {
+            "value": 2,
+            "category": "Low",
+            "color": "#84CF33"
+          }
+        },
+        "weed": {
+          "display_name": "Weed",
+          "in_season": false,
+          "data_available": false,
+          "index": {
+            "value": null,
+            "category": null,
+            "color": null
+          }
+        }
+      }
+    }
+  ],
+  "error": null
+}

@@ -27,17 +27,13 @@ class BreezometerAPI {
     return _getPollenInternal(url);
   }
 
-  Future<PollenData> getHeatmapTiles(
+  String getHeatmapTilesURL(
     int zoom,
     int x,
     int y,
     PollenType type,
-  ) async {
-    var url = Uri.https("tiles.breezometer.com",
-        "/v1/pollen/$type/forecast/daily/$zoom/$x/$y.png", {
-      "key": apiKey,
-    });
-    return _getPollenInternal(url); // TODO: fix this
+  ) {
+    return "https://tiles.breezometer.com/v1/pollen/$type/forecast/daily/$zoom/$x/$y.png?key=$apiKey";
   }
 
   Future<PollenData> _getPollenInternal(Uri url) async {

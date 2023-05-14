@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:rxdart/rxdart.dart';
 import 'package:weather_app/bloc/bloc.dart';
 import 'package:weather_app/models/pollen_data.dart';
 
@@ -11,6 +12,8 @@ class ForecastBloc extends Bloc {
 
   ForecastBloc() {
     forecastStream = _forecastController.stream
+      .startWith(null)
+      .delay(Duration(seconds: 5))
       .asyncMap((placename) => [
         PollenData(trees: 50, grasses: 24, weeds: 72),
         PollenData(trees: 42, grasses: 32, weeds: 56),

@@ -1,10 +1,16 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:weather_app/prototype/main.dart' as Prototype;
-import 'package:weather_app/views/MainPage.dart';
+import 'package:weather_app/views/heatmap_page.dart';
+import 'package:weather_app/views/locations_page.dart';
+import 'package:weather_app/views/main_page.dart';
+import 'package:weather_app/views/settings_page.dart';
+import 'package:weather_app/widgets/shared_axis_page_route.dart';
+
+const USE_PROTOTYPE = true;
 
 void main() {
-  
-  runApp(const Prototype.MyApp());
+  runApp(USE_PROTOTYPE ? const Prototype.MyApp() : const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -16,18 +22,20 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Flutter Demo',
       theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
         primarySwatch: Colors.blue,
       ),
-      home: MainPage()
+      initialRoute: '/',
+      onGenerateRoute: _onGenerateRoute,
     );
+  }
+
+  static Route<dynamic> _onGenerateRoute(RouteSettings settings) {
+    switch (settings.name) {
+      case '/': return SharedAxisPageRoute(page: MainPage(), transitionType: SharedAxisTransitionType.horizontal);
+      case '/settings': return SharedAxisPageRoute(page: SettingsPage(), transitionType: SharedAxisTransitionType.horizontal);
+      case '/locations': return SharedAxisPageRoute(page: LocationsPage(), transitionType: SharedAxisTransitionType.vertical);
+      case '/heatmap': return SharedAxisPageRoute(page: HeatmapPage(), transitionType: SharedAxisTransitionType.scaled);
+      default: throw "Invalid page route!";
+    }
   }
 }

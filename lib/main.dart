@@ -6,10 +6,13 @@ import 'package:weather_app/views/locations_page.dart';
 import 'package:weather_app/views/main_page.dart';
 import 'package:weather_app/views/settings_page.dart';
 import 'package:weather_app/widgets/shared_axis_page_route.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-const USE_PROTOTYPE = true;
+const USE_PROTOTYPE = false;
 
-void main() {
+void main() async{
+  await Hive.initFlutter();
+  await Hive.openBox('');
   runApp(USE_PROTOTYPE ? const Prototype.MyApp() : const MyApp());
 }
 

@@ -12,7 +12,7 @@ class PlacewiseLocation extends RequestLocation {
   PlacewiseLocation({required this.placename});
 }
 
-class LatLngLocation {
+class LatLngLocation extends RequestLocation {
   final int lat;
   final int lng;
   LatLngLocation({required this.lat, required this.lng});

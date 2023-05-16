@@ -17,7 +17,7 @@ class HeatmapPage extends StatelessWidget {
                 center: LatLng(52.211062401143174, 0.09145702047173837),
                 zoom: 3.2,
                 maxZoom: 8,
-                minZoom: 3,
+                minZoom: 2,
                 maxBounds: LatLngBounds(
                   LatLng(85.0, -180.0),
                   LatLng(-85.0, 180.0),

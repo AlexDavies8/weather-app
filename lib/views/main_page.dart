@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/apis/ambee_api.dart';
 import 'package:weather_app/bloc/bloc_provider.dart';
 import 'package:weather_app/bloc/forecast_bloc.dart';
 import 'package:weather_app/widgets/arc_progress_indicator.dart';
@@ -8,6 +9,7 @@ import 'package:weather_app/widgets/parallax_background.dart';
 import 'package:weather_app/widgets/large_indicator.dart';
 import 'package:weather_app/widgets/forecast_card.dart';
 
+<<<<<<< HEAD
 import '../models/pollen_data.dart';
 
 const _greenCol = Color.fromARGB(255, 20, 78, 71);
@@ -20,6 +22,8 @@ const _arcIndicatorGradient = IndicatorGradient(
 );
 
 
+=======
+>>>>>>> 7df0b6f7a402440167a86a7f69dc234a5ac92a7d
 class MainPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _MainPageState();
@@ -112,10 +116,10 @@ class TodayWidget extends StatelessWidget {
     final forecastBloc = BlocProvider.of<ForecastBloc>(context);
     return Scaffold(
       appBar: AppBar(title: const Text("Home")),
-      body: StreamBuilder<List<PollenData>?>(
-        stream: forecastBloc.forecastStream,
+      body: StreamBuilder<PollenData>(
+        stream: forecastBloc.forecast,
         builder: (context, snapshot) {
-          return Text(snapshot.data?[0].trees.toString() ?? "No Data");
+          return Text(snapshot.data?.data[0].count.treePollen.toString() ?? "No Data");
         }
       )
     );

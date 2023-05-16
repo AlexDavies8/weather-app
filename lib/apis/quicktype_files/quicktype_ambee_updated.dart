@@ -84,13 +84,13 @@ class Risk {
     );
 }
 
-enum Pollen { LOW, MODERATE, HIGH, VERYHIGH }
+enum Pollen { low, moderate, high, veryhigh }
 
 final pollenValues = EnumValues({
-    "Low": Pollen.LOW,
-    "Moderate": Pollen.MODERATE,
-    "High": Pollen.HIGH,
-    "Very High": Pollen.VERYHIGH
+    "Low": Pollen.low,
+    "Moderate": Pollen.moderate,
+    "High": Pollen.high,
+    "Very High": Pollen.veryhigh
 });
 
 class EnumValues<T> {

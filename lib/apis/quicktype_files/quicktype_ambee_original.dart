@@ -116,18 +116,18 @@ class Risk {
     };
 }
 
-enum Pollen { MODERATE, LOW }
+enum Pollen { moderate, low }
 
 final pollenValues = EnumValues({
-    "Low": Pollen.LOW,
-    "Moderate": Pollen.MODERATE
+    "Low": Pollen.low,
+    "Moderate": Pollen.moderate
 });
 
-enum TreePollen { HIGH, MODERATE }
+enum TreePollen { high, moderate }
 
 final treePollenValues = EnumValues({
-    "High": TreePollen.HIGH,
-    "Moderate": TreePollen.MODERATE
+    "High": TreePollen.high,
+    "Moderate": TreePollen.moderate
 });
 
 class Species {

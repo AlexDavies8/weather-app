@@ -1,7 +1,19 @@
 class Location {
-  final String name;
-  final double? latitude;
-  final double? longitude;
+  final String displayName;
+  final RequestLocation requestLocation;
 
-  Location({required this.name, this.latitude, this.longitude});
+  Location({required this.displayName, required this.requestLocation});
+}
+
+class RequestLocation {}
+
+class PlacewiseLocation extends RequestLocation {
+  final String placename;
+  PlacewiseLocation({required this.placename});
+}
+
+class LatLngLocation extends RequestLocation {
+  final int lat;
+  final int lng;
+  LatLngLocation({required this.lat, required this.lng});
 }

@@ -75,20 +75,20 @@ class Datum {
   Count count;
   Risk risk;
   int time;
-  DateTime updatedAt;
+  DateTime? updatedAt;
 
   Datum({
     required this.count,
     required this.risk,
     required this.time,
-    required this.updatedAt,
+    this.updatedAt,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         count: Count.fromJson(json["Count"]),
         risk: Risk.fromJson(json["Risk"]),
         time: json["time"],
-        updatedAt: DateTime.parse(json["updatedAt"]),
+        updatedAt: json.containsKey("updatedAt") ? DateTime.parse(json["updatedAt"]) : null,
       );
 }
 

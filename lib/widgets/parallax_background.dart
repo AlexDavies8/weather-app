@@ -32,10 +32,10 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
   Widget build(BuildContext context) {
     return Stack(
       children: [
-        ParallaxElement(asset: "assets/images/layer0.png", camera: widget.offset + animation.value * -200, z: 100, cameraZ: -10),
-        ParallaxElement(asset: "assets/images/layer1.png", camera: widget.offset + animation.value * -200, z: 20, cameraZ: -10),
-        ParallaxElement(asset: "assets/images/layer2.png", camera: widget.offset + animation.value * -200, z: 10, cameraZ: -10),
-        ParallaxElement(asset: "assets/images/layer3.png", camera: widget.offset + animation.value * -200, z: 5, cameraZ: -10),
+        ParallaxElement(asset: "assets/images/Layer1.png", camera: widget.offset + animation.value * -200, z: 100, cameraZ: -10),
+        ParallaxElement(asset: "assets/images/Layer2.png", camera: widget.offset + animation.value * -200, z: 20, cameraZ: -10),
+        ParallaxElement(asset: "assets/images/Layer3.png", camera: widget.offset + animation.value * -200, z: 10, cameraZ: -10),
+        ParallaxElement(asset: "assets/images/Layer4.png", camera: widget.offset + animation.value * -200, z: 5, cameraZ: -10),
       ],
     );
   }

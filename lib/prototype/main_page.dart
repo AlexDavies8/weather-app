@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/prototype/arc_progress_indicator.dart';
 import 'package:weather_app/prototype/category_indicator.dart';
 import 'package:weather_app/prototype/main_appbar.dart';
-import 'package:weather_app/prototype/parallax_background.dart';
+import 'package:weather_app/widgets/parallax_background.dart';
 
 import 'forecast_card.dart';
 import 'large_indicator.dart';

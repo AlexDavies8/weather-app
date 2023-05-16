@@ -6,10 +6,13 @@ import 'package:weather_app/views/locations_page.dart';
 import 'package:weather_app/views/main_page.dart';
 import 'package:weather_app/views/settings_page.dart';
 import 'package:weather_app/widgets/shared_axis_page_route.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-const USE_PROTOTYPE = true;
+const USE_PROTOTYPE = false;
 
-void main() {
+void main() async{
+  await Hive.initFlutter();
+  await Hive.openBox('');
   runApp(USE_PROTOTYPE ? const Prototype.MyApp() : const MyApp());
 }
 
@@ -23,6 +26,20 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: ThemeData(
         primarySwatch: Colors.blue,
+        colorScheme: const ColorScheme.dark(),
+        pageTransitionsTheme: const PageTransitionsTheme(
+          builders: {
+            TargetPlatform.windows: SharedAxisPageTransitionsBuilder(
+              transitionType: SharedAxisTransitionType.horizontal,
+            ),
+            TargetPlatform.android: SharedAxisPageTransitionsBuilder(
+              transitionType: SharedAxisTransitionType.horizontal,
+            ),
+            TargetPlatform.iOS: SharedAxisPageTransitionsBuilder(
+              transitionType: SharedAxisTransitionType.horizontal,
+            ),
+          },
+        ),
       ),
       initialRoute: '/',
       onGenerateRoute: _onGenerateRoute,
@@ -39,3 +56,6 @@ class MyApp extends StatelessWidget {
     }
   }
 }
+
+
+

@@ -18,8 +18,9 @@ class ParallaxElement extends StatelessWidget {
     final x = dz * camera.x;
     final y = dz * camera.y;
     return Positioned(
-      left: x,
+      left: 0,
       top: y,
+      right: 0,
       child: child
     );
   }

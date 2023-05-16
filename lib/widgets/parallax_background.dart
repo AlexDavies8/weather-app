@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/widgets/parallax_camera.dart';
+import 'package:weather_app/widgets/parallax_element.dart';
 
 class ParallaxBackground extends StatefulWidget {
   final double offset;
@@ -30,32 +32,17 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ParallaxElement(asset: "assets/images/Layer1.png", camera: widget.offset + animation.value * -200, z: 100, cameraZ: -10),
-        ParallaxElement(asset: "assets/images/Layer2.png", camera: widget.offset + animation.value * -200, z: 20, cameraZ: -10),
-        ParallaxElement(asset: "assets/images/Layer3.png", camera: widget.offset + animation.value * -200, z: 10, cameraZ: -10),
-        ParallaxElement(asset: "assets/images/Layer4.png", camera: widget.offset + animation.value * -200, z: 5, cameraZ: -10),
-      ],
-    );
-  }
-}
-
-class ParallaxElement extends StatelessWidget {
-  final String asset;
-  final double cameraZ;
-  final double camera;
-  final double z;
-
-  const ParallaxElement({super.key, this.z = 0.0, required this.camera, required this.cameraZ, required this.asset});
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      left: 0,
-      right: 0,
-      top: z / (z - cameraZ) * camera - camera,
-      child: Image.asset(asset, fit: BoxFit.cover)
-    );
+    return ParallaxCamera(
+      depth: -10,
+      y: -widget.offset,
+      child: Stack(
+        children: [
+          ParallaxElement(depth: 100, child: Image.asset("assets/images/Layer1.png", fit: BoxFit.cover)),
+          ParallaxElement(depth: 20, child: Image.asset("assets/images/Layer2.png", fit: BoxFit.cover)),
+          ParallaxElement(depth: 10, child: Image.asset("assets/images/Layer3.png", fit: BoxFit.cover)),
+          ParallaxElement(depth: 5, child: Image.asset("assets/images/Layer4.png", fit: BoxFit.cover)),
+        ],
+      )
+    ) ;
   }
 }

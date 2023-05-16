@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/hive_flutter.dart';
+//import 'package:hive_flutter/hive_flutter.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class IntroductionPage extends StatelessWidget {
@@ -7,7 +7,7 @@ class IntroductionPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final box = Hive.box('');
+    //final box = Hive.box('');
 
     return Scaffold(
       appBar: AppBar(),
@@ -40,7 +40,7 @@ class IntroductionPage extends StatelessWidget {
           // When something changes
         },
         onDone: () {
-          box.put('introduction', false);
+          //box.put('introduction', false);
           Navigator.of(context).pushNamed('/');
         },
         skip: const Icon(Icons.skip_next),

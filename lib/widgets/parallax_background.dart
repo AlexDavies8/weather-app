@@ -37,10 +37,12 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
       y: -widget.offset,
       child: Stack(
         children: [
-          ParallaxElement(depth: 100, child: Image.asset("assets/images/Layer1.png", fit: BoxFit.cover)),
-          ParallaxElement(depth: 20, child: Image.asset("assets/images/Layer2.png", fit: BoxFit.cover)),
-          ParallaxElement(depth: 10, child: Image.asset("assets/images/Layer3.png", fit: BoxFit.cover)),
-          ParallaxElement(depth: 5, child: Image.asset("assets/images/Layer4.png", fit: BoxFit.cover)),
+          ParallaxElement(depth: 10000, expand: true, child: Container(color: Color.fromARGB(255, 138, 181, 180))),
+          ParallaxElement(depth: 100, child: Image.asset("assets/images/Layer4.png", fit: BoxFit.cover, color: Color.fromARGB(255, 237, 241, 214))),
+          ParallaxElement(depth: 50, child: Image.asset("assets/images/Layer3.png", fit: BoxFit.cover, color: Color.fromARGB(255, 157, 192, 139))),
+          ParallaxElement(depth: 15, child: Image.asset("assets/images/Layer2.png", fit: BoxFit.cover, color: Color.fromARGB(255, 96, 153, 102))),
+          ParallaxElement(depth: 5, child: Image.asset("assets/images/Layer1.png", fit: BoxFit.cover, color: Color.fromARGB(255, 64, 81, 59))),
+          ParallaxElement(depth: 5, expand: true, yOffset: 1199, child: Container(color: Color.fromARGB(255, 64, 81, 59))),
         ],
       )
     ) ;

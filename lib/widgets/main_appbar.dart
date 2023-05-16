@@ -15,7 +15,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       ),
       title: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
         IconButton(
-          onPressed: () => Navigator.of(context).pushNamed("/locations"),
+          onPressed: () => Navigator.of(context).pushNamed("/heatmap"),
           icon: const Icon(
             Icons.map,
             size: 24.0,

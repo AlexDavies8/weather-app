@@ -10,12 +10,48 @@ class WelcomePage extends StatelessWidget {
     return MultistepPage(
       onDone: () => _completedWelcome(context),
       pages: [
-        Container(
-          child: Text("Notifications")
-        ),
-        Container(
-          child: Text("Location")
-        )
+        Stack(
+          children:  [
+            Positioned(
+              top: 0,
+              bottom: 0,
+              right: 0,
+              left: 0,
+              child: Image.asset(
+              'assets/images/background.jpg',
+              fit: BoxFit.cover,
+            ),
+            ),
+            const Positioned(
+              top: 40,
+              bottom: 0,
+              right: 0,
+              left: 10,
+              child: Column(
+                children:  [
+                  Text(
+                  'Welcome!\n',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 40,
+                  ),
+                  textAlign: TextAlign.center,),
+                  Text(
+                    'Please accept our access to your location, we need it to deliver your local pollen data \n\nPlease also select if you want to be notified :D\n\nPress "Next" to continue!',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 20,
+                    ),
+                    textAlign: TextAlign.center,
+
+                  ),
+                ]
+              ),
+            ),
+          ],
+
+
+    )
       ]
     );
   }

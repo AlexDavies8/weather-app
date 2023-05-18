@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app/bloc/bloc_provider.dart';
 import 'package:weather_app/bloc/forecast_bloc.dart';
+import 'package:weather_app/bloc/locations_bloc.dart';
 import 'package:weather_app/views/heatmap_page.dart';
 import 'package:weather_app/views/locations_page.dart';
 import 'package:weather_app/views/main_page.dart';
@@ -29,6 +30,8 @@ class MyApp extends StatelessWidget {
             return Center(child: CircularProgressIndicator());
           default:
             return BlocProvider(
+              bloc: LocationsBloc(),
+                child: BlocProvider(
               bloc: ForecastBloc(),
                 child: MaterialApp(
                 title: 'Flutter Demo',
@@ -52,6 +55,7 @@ class MyApp extends StatelessWidget {
                 initialRoute: snapshot.data?.getBool("completedWelcome") ?? false ? '/' : '/welcome',
                 onGenerateRoute: _onGenerateRoute,
               )
+            )
             ); 
         }
       },

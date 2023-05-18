@@ -55,7 +55,8 @@ class ParallaxElement extends StatelessWidget {
       left: 0,
       right: 0,
       top: z / (z - cameraZ) * camera - camera,
-      child: Image.asset(asset, fit: BoxFit.cover)
+      child: 
+      Image.asset(asset, fit: BoxFit.cover)
     );
   }
 }

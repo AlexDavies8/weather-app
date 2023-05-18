@@ -41,8 +41,8 @@ dependencies:
   rxdart: ^0.27.7
   flutter_map: ^4.0.0
   latlong2: ^0.8.1
-  introduction_screen: ^2.1.0
   shared_preferences: ^2.1.1
+  location: ^4.2.0
 
 dev_dependencies:
   flutter_test:
@@ -72,6 +72,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/
+    - lib/apis/response_samples/ambee_sample.json
 
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware

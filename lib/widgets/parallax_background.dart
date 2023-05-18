@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:weather_app/widgets/parallax_camera.dart';
+import 'package:weather_app/widgets/parallax_element.dart';
 
 class ParallaxBackground extends StatefulWidget {
   final double offset;
@@ -10,7 +12,6 @@ class ParallaxBackground extends StatefulWidget {
 }
 
 class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTickerProviderStateMixin {
-  
   late Animation<double> animation;
   late AnimationController animController;
   
@@ -55,8 +56,7 @@ class ParallaxElement extends StatelessWidget {
       left: 0,
       right: 0,
       top: z / (z - cameraZ) * camera - camera,
-      child: 
-      Image.asset(asset, fit: BoxFit.cover)
+      child: Image.asset(asset, fit: BoxFit.cover)
     );
   }
 }

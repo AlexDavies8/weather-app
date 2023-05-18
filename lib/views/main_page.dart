@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/bloc/bloc_provider.dart';
 import 'package:weather_app/bloc/forecast_bloc.dart';
+import 'package:weather_app/prototype/ambee_api.dart';
+import 'package:weather_app/utils/iterable_extensions.dart';
+import 'package:weather_app/utils/list_extensions.dart';
 import 'package:weather_app/widgets/arc_progress_indicator.dart';
 import 'package:weather_app/widgets/category_indicator.dart';
 import 'package:weather_app/widgets/main_appbar.dart';
@@ -18,6 +21,16 @@ const _arcIndicatorGradient = IndicatorGradient(
   stops: [0.00, 0.30, 0.30, 0.50, 0.50, 0.70, 0.70, 1.00]
 );
 
+const days = [
+  "Today",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 
 class MainPage extends StatefulWidget {
   @override
@@ -33,72 +46,74 @@ class _MainPageState extends State<MainPage> {
     });
     return true;
   }
+
   @override
   Widget build(BuildContext context) {
+    final forecastBloc = BlocProvider.of<ForecastBloc>(context);
+
     return NotificationListener<ScrollNotification>(
       onNotification: _onScroll,
       child: _MainPageWrapper(
         scrollOffset: scrollOffset,
         children: [
-          const SizedBox(height: 150),
-          const Center(
-            child: Padding(
-              padding: EdgeInsets.all(60),
-              child: LargeIndicator(min: 0, max: 100, value: 74, gradient: _arcIndicatorGradient)
-            )
-          ),
-          const SizedBox(height: 132),
-          Card(
-            elevation: 0,
-            color: Colors.transparent,
-            shape: RoundedRectangleBorder(
-              side: BorderSide(color: Colors.transparent, width: 2),
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-            ),
-            margin: EdgeInsets.zero,
-            child: ClipRect(
-              child:  Padding(
-                padding: EdgeInsets.all(40),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    CategoryIndicator(value: 81, label: "Trees", icon: Icons.park),
-                    CategoryIndicator(value: 44, label: "Grasses", icon: Icons.grass),
-                    CategoryIndicator(value: 56, label: "Weeds", icon: Icons.spa),
-                  ]
-                )
-              )
-            )
-          ),
-          const SizedBox(height: 12),
-          Container(
-            color: Colors.white24,
-            height: 2,
-          ),
-          Card(
-            elevation: 0,
-            color: Colors.transparent,
-            shape: const RoundedRectangleBorder(
-              side: BorderSide(color: Colors.transparent, width: 2),
-              borderRadius: BorderRadius.all(Radius.circular(12)),
-            ),
-            margin: EdgeInsets.zero,
-            child: Padding(
-              padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-              child: Column(
+          StreamBuilder<PollenForecast>(
+            stream: forecastBloc.forecast,
+            builder: (context, snapshot) {
+              if (!snapshot.hasData) {
+                return const SafeArea(child: Expanded(child: Center(child: CircularProgressIndicator())));
+              }
+              final current = snapshot.data!.current.data[0];
+              final forecasts = snapshot.data!.forecast.data.groupN(24);
+              final forecastTimes = forecasts.map((g) => g.skip(12).first).map((el) => DateTime.fromMillisecondsSinceEpoch(el.time! * 1000).weekday);
+              final forecastCounts = forecasts
+                .map((g) => g
+                  .map((e) => [e.count.treePollen.toDouble(), e.count.grassPollen.toDouble(), e.count.weedPollen.toDouble()])
+                  .reduce((acc, el) => [acc[0] + el[0], acc[1] + el[1], acc[2] + el[2]])
+                  .map((e) => (e / g.length).toInt()).toList()
+                );
+              final forecastData = [[0, [current.count.treePollen, current.count.grassPollen, current.count.weedPollen]]] + [forecastTimes, forecastCounts].zip().toList();
+              return Column(
                 children: [
-                  ForecastCard(label: "Saturday"),
-                  ForecastCard(label: "Sunday"),
-                  ForecastCard(label: "Monday"),
-                  ForecastCard(label: "Tuesday"),
-                  ForecastCard(label: "Wednesday"),
-                  ForecastCard(label: "Thursday"),
-                  ForecastCard(label: "Friday"),
+                  const SizedBox(height: 150),
+                  const Center(
+                    child: Padding(
+                      padding: EdgeInsets.all(60),
+                      child: LargeIndicator(min: 0, max: 100, value: 74, gradient: _arcIndicatorGradient)
+                    )
+                  ),
+                  const SizedBox(height: 132),
+                  Padding(
+                    padding: EdgeInsets.all(40),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        CategoryIndicator(value: current.count.treePollen, label: "Trees", icon: Icons.park),
+                        CategoryIndicator(value: current.count.grassPollen, label: "Grasses", icon: Icons.grass),
+                        CategoryIndicator(value: current.count.weedPollen, label: "Weeds", icon: Icons.spa),
+                      ]
+                    )
+                  ),
+                  const SizedBox(height: 12),
+                  Container(
+                    color: Colors.white24,
+                    height: 2,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    child: Column(
+                      children: forecastData.map((data) => ForecastCard(
+                        label: days[data[0] as int],
+                        trees: (data[1] as List<int>)[0],
+                        grasses: (data[1] as List<int>)[1],
+                        weeds: (data[1] as List<int>)[2],
+                      )).toList()
+                    )
+                  )
                 ]
-              )
-            )
-          )
+              );
+            }
+          ),
         ]
       )
     );

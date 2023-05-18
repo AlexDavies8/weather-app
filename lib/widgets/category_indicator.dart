@@ -8,7 +8,7 @@ class CategoryIndicator extends StatelessWidget {
   final String? label;
   final IconData? icon;
 
-  const CategoryIndicator({super.key, this.min = 0, this.max = 100, required this.value, this.label, this.icon});
+  const CategoryIndicator({super.key, this.min = 0, this.max = 500, required this.value, this.label, this.icon});
   
   @override
   Widget build(BuildContext context) {

@@ -74,20 +74,20 @@ class PollenData {
 class Datum {
   Count count;
   Risk risk;
-  int time;
+  int? time;
   DateTime? updatedAt;
 
   Datum({
     required this.count,
     required this.risk,
-    required this.time,
+    this.time,
     this.updatedAt,
   });
 
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         count: Count.fromJson(json["Count"]),
         risk: Risk.fromJson(json["Risk"]),
-        time: json["time"],
+        time: json.containsKey("time") ? json["time"] : null,
         updatedAt: json.containsKey("updatedAt") ? DateTime.parse(json["updatedAt"]) : null,
       );
 }

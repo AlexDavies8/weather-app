@@ -1,10 +1,16 @@
 import 'dart:async';
+import 'dart:convert';
+import 'dart:io';
 
 import 'package:rxdart/rxdart.dart';
 import 'package:weather_app/apis/ambee_api.dart';
 import 'package:weather_app/bloc/bloc.dart';
 import 'package:weather_app/models/location.dart';
 import 'package:weather_app/models/pollen_forecast.dart';
+import 'package:path/path.dart' as Path;
+
+const USE_MOCK_DATA = true;
+final MOCK_DATA_PATH = Path.join(Directory.current.path, "lib", "apis", "response_samples", "ambee_sample.json");
 
 class ForecastBloc extends Bloc {
   final StreamController _controller = StreamController<RequestLocation>();
@@ -18,10 +24,9 @@ class ForecastBloc extends Bloc {
     ambeeApi = const AmbeeApi();
     forecast = _controller.stream
       .startWith(null)
-      .delay(const Duration(seconds: 3))
       .asyncMap((location) async => PollenForecast(
-        current: await getCurrentData(location),
-        forecast: await getForecastData(location))
+        current: USE_MOCK_DATA ? PollenData.fromJson(jsonDecode(await File(MOCK_DATA_PATH).readAsString())) : await getCurrentData(location),
+        forecast: USE_MOCK_DATA ? PollenData.fromJson(jsonDecode(await File(MOCK_DATA_PATH).readAsString())) : await getForecastData(location))
       );
     queryLocation.add(PlacewiseLocation(placename: "Cambridge"));
   }

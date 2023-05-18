@@ -37,6 +37,15 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
         ParallaxElement(asset: "assets/images/Layer2.png", camera: widget.offset + animation.value * -200, z: 20, cameraZ: -10),
         ParallaxElement(asset: "assets/images/Layer3.png", camera: widget.offset + animation.value * -200, z: 10, cameraZ: -10),
         ParallaxElement(asset: "assets/images/Layer4.png", camera: widget.offset + animation.value * -200, z: 5, cameraZ: -10),
+
+          // ParallaxElement(depth: 10000, expand: true, yOffset: 0, child: Image.asset("assets/images/slice1.png", fit: BoxFit.cover)),
+          // ParallaxElement(depth: 35, xOffset: 150, yOffset: 100, child: Image.asset("assets/images/slice7.png", fit: BoxFit.cover)),
+          // ParallaxElement(depth: 45, xOffset: -20, yOffset: 200, child: Image.asset("assets/images/slice6.png", fit: BoxFit.cover)),
+          // ParallaxElement(depth: 30, yOffset: 300, child: Image.asset("assets/images/slice2.png", fit: BoxFit.cover)),
+          // ParallaxElement(depth: 15, yOffset: 420, child: Image.asset("assets/images/slice3.png", fit: BoxFit.cover)),
+          // ParallaxElement(depth: 6, xOffset: -10, yOffset: 500, child: Image.asset("assets/images/slice4.png", fit: BoxFit.cover)),
+          // ParallaxElement(depth: 0, expand: true, yOffset: 1000, child: Container(color: const Color.fromARGB(255, 50, 142, 77))),
+          // ParallaxElement(depth: 2, yOffset: 550, child: Image.asset("assets/images/slice5.png", fit: BoxFit.cover)),
       ],
     );
   }

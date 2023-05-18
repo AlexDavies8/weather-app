@@ -19,7 +19,7 @@ class ArcProgressIndicator extends StatefulWidget {
     this.backgroundColor = Colors.grey,
     this.fillColor = Colors.blue,
     this.label = "",
-    this.strokeWidth = 12,
+    this.strokeWidth = 25,
     this.gradient,
     super.key
   });

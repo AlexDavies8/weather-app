@@ -31,6 +31,9 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
 
   @override
   Widget build(BuildContext context) {
+    final screenHeight = MediaQuery.of(context).size.height;
+    final scaleFactor = screenHeight / 1000;
+
     return ParallaxCamera(
       depth: -10,
       y: -widget.offset + animation.value * 200,
@@ -41,7 +44,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
           ParallaxElement(depth: 50, child: Image.asset("assets/images/Layer3.png", fit: BoxFit.cover, color: Color.fromARGB(255, 157, 192, 139))),
           ParallaxElement(depth: 15, child: Image.asset("assets/images/Layer2.png", fit: BoxFit.cover, color: Color.fromARGB(255, 96, 153, 102))),
           ParallaxElement(depth: 5, child: Image.asset("assets/images/Layer1.png", fit: BoxFit.cover, color: Color.fromARGB(255, 64, 81, 59))),
-          ParallaxElement(depth: 5, expandHeight: true, yOffset: 1000, child: Container(color: const Color.fromARGB(255, 64, 81, 59))),
+          ParallaxElement(depth: 5, expandHeight: true, yOffset: 1000*scaleFactor, child: Container(color: const Color.fromARGB(255, 64, 81, 59))),
 
           // ParallaxElement(depth: 10000, expandHeight: true, yOffset: 0, child: Image.asset("assets/images/slice1.png", fit: BoxFit.cover)),
           // ParallaxElement(depth: 35, xOffset: 150, yOffset: 100, child: Image.asset("assets/images/slice7.png", fit: BoxFit.cover)),

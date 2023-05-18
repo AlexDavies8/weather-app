@@ -26,6 +26,10 @@ class ParallaxElement extends StatelessWidget {
     final d2 = depth - camera.depth;
     final dz = 1 - d1 / d2;
     final x = dz * camera.x + xOffset;
+
+    // final screenHeight = MediaQuery.of(context).size.height;
+    // final scaleFactor = screenHeight / 1000;
+    // final adjustedYOffset = yOffset * scaleFactor;
     final y = dz * camera.y + yOffset;
     return Positioned(
       left: x,

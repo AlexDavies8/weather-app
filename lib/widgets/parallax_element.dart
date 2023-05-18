@@ -4,7 +4,8 @@ import 'package:weather_app/widgets/parallax_camera.dart';
 class ParallaxElement extends StatelessWidget {
   final Widget child;
   final double depth;
-  final bool expand;
+  final bool expandWidth;
+  final bool expandHeight;
   final double xOffset;
   final double yOffset;
 
@@ -12,7 +13,8 @@ class ParallaxElement extends StatelessWidget {
     super.key,
     required this.child,
     this.depth = 0.0,
-    this.expand = false,
+    this.expandWidth = true,
+    this.expandHeight = false,
     this.xOffset = 0,
     this.yOffset = 0
   });
@@ -28,8 +30,8 @@ class ParallaxElement extends StatelessWidget {
     return Positioned(
       left: x,
       top: y,
-      right: expand ? 0 : null,
-      bottom: expand ? 0 : null,
+      right: expandWidth ? 0 : null,
+      bottom: expandHeight ? 0 : null,
       child: child
     );
   }

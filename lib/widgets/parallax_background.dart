@@ -31,12 +31,17 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
 
   @override
   Widget build(BuildContext context) {
-    return Stack(
-      children: [
-        ParallaxElement(asset: "assets/images/Layer1.png", camera: widget.offset + animation.value * -200, z: 100, cameraZ: -10),
-        ParallaxElement(asset: "assets/images/Layer2.png", camera: widget.offset + animation.value * -200, z: 20, cameraZ: -10),
-        ParallaxElement(asset: "assets/images/Layer3.png", camera: widget.offset + animation.value * -200, z: 10, cameraZ: -10),
-        ParallaxElement(asset: "assets/images/Layer4.png", camera: widget.offset + animation.value * -200, z: 5, cameraZ: -10),
+    return ParallaxCamera(
+      depth: -10,
+      y: -widget.offset + animation.value * 200,
+      child: Stack(
+        children: [
+          ParallaxElement(depth: 10000, expand: true, child: Container(color: Color.fromARGB(255, 138, 181, 180))),
+          ParallaxElement(depth: 100, child: Image.asset("assets/images/Layer4.png", fit: BoxFit.cover, color: Color.fromARGB(255, 237, 241, 214))),
+          ParallaxElement(depth: 50, child: Image.asset("assets/images/Layer3.png", fit: BoxFit.cover, color: Color.fromARGB(255, 157, 192, 139))),
+          ParallaxElement(depth: 15, child: Image.asset("assets/images/Layer2.png", fit: BoxFit.cover, color: Color.fromARGB(255, 96, 153, 102))),
+          ParallaxElement(depth: 5, child: Image.asset("assets/images/Layer1.png", fit: BoxFit.cover, color: Color.fromARGB(255, 64, 81, 59))),
+          ParallaxElement(depth: 0, expand: true, yOffset: 1000, child: Container(color: const Color.fromARGB(255, 64, 81, 59))),
 
           // ParallaxElement(depth: 10000, expand: true, yOffset: 0, child: Image.asset("assets/images/slice1.png", fit: BoxFit.cover)),
           // ParallaxElement(depth: 35, xOffset: 150, yOffset: 100, child: Image.asset("assets/images/slice7.png", fit: BoxFit.cover)),
@@ -46,26 +51,8 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
           // ParallaxElement(depth: 6, xOffset: -10, yOffset: 500, child: Image.asset("assets/images/slice4.png", fit: BoxFit.cover)),
           // ParallaxElement(depth: 0, expand: true, yOffset: 1000, child: Container(color: const Color.fromARGB(255, 50, 142, 77))),
           // ParallaxElement(depth: 2, yOffset: 550, child: Image.asset("assets/images/slice5.png", fit: BoxFit.cover)),
-      ],
-    );
-  }
-}
-
-class ParallaxElement extends StatelessWidget {
-  final String asset;
-  final double cameraZ;
-  final double camera;
-  final double z;
-
-  const ParallaxElement({super.key, this.z = 0.0, required this.camera, required this.cameraZ, required this.asset});
-
-  @override
-  Widget build(BuildContext context) {
-    return Positioned(
-      left: 0,
-      right: 0,
-      top: z / (z - cameraZ) * camera - camera,
-      child: Image.asset(asset, fit: BoxFit.cover)
-    );
+        ],
+      )
+    ) ;
   }
 }

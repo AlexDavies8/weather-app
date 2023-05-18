@@ -21,6 +21,7 @@ class ForecastBloc extends Bloc {
   late AmbeeApi ambeeApi;
 
   ForecastBloc() {
+    print(MOCK_DATA_PATH);
     ambeeApi = const AmbeeApi();
     forecast = _controller.stream
       .startWith(null)

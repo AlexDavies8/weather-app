@@ -60,7 +60,7 @@ class _MainPageState extends State<MainPage> {
             stream: forecastBloc.forecast,
             builder: (context, snapshot) {
               if (!snapshot.hasData) {
-                return const SafeArea(child: Expanded(child: Center(child: CircularProgressIndicator())));
+                return const SafeArea(child: Center(child: CircularProgressIndicator()));
               }
               final current = snapshot.data!.current.data[0];
               final forecasts = snapshot.data!.forecast.data.groupN(24);

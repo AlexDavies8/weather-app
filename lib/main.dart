@@ -1,6 +1,8 @@
 import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weather_app/bloc/bloc_provider.dart';
+import 'package:weather_app/bloc/forecast_bloc.dart';
 import 'package:weather_app/views/heatmap_page.dart';
 import 'package:weather_app/views/locations_page.dart';
 import 'package:weather_app/views/main_page.dart';
@@ -26,27 +28,30 @@ class MyApp extends StatelessWidget {
           case ConnectionState.waiting:
             return Center(child: CircularProgressIndicator());
           default:
-            return MaterialApp(
-              title: 'Flutter Demo',
-              theme: ThemeData(
-                primarySwatch: Colors.blue,
-                colorScheme: const ColorScheme.dark(),
-                pageTransitionsTheme: const PageTransitionsTheme(
-                  builders: {
-                    TargetPlatform.windows: SharedAxisPageTransitionsBuilder(
-                      transitionType: SharedAxisTransitionType.horizontal,
-                    ),
-                    TargetPlatform.android: SharedAxisPageTransitionsBuilder(
-                      transitionType: SharedAxisTransitionType.horizontal,
-                    ),
-                    TargetPlatform.iOS: SharedAxisPageTransitionsBuilder(
-                      transitionType: SharedAxisTransitionType.horizontal,
-                    ),
-                  },
+            return BlocProvider(
+              bloc: ForecastBloc(),
+                child: MaterialApp(
+                title: 'Flutter Demo',
+                theme: ThemeData(
+                  primarySwatch: Colors.blue,
+                  colorScheme: const ColorScheme.dark(),
+                  pageTransitionsTheme: const PageTransitionsTheme(
+                    builders: {
+                      TargetPlatform.windows: SharedAxisPageTransitionsBuilder(
+                        transitionType: SharedAxisTransitionType.horizontal,
+                      ),
+                      TargetPlatform.android: SharedAxisPageTransitionsBuilder(
+                        transitionType: SharedAxisTransitionType.horizontal,
+                      ),
+                      TargetPlatform.iOS: SharedAxisPageTransitionsBuilder(
+                        transitionType: SharedAxisTransitionType.horizontal,
+                      ),
+                    },
+                  ),
                 ),
-              ),
-              initialRoute: snapshot.data?.getBool("completedWelcome") ?? false ? '/' : '/welcome',
-              onGenerateRoute: _onGenerateRoute,
+                initialRoute: snapshot.data?.getBool("completedWelcome") ?? false ? '/' : '/welcome',
+                onGenerateRoute: _onGenerateRoute,
+              )
             ); 
         }
       },

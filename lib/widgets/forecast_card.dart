@@ -5,8 +5,11 @@ import 'category_indicator.dart';
 
 class ForecastCard extends StatelessWidget {
   final String label;
+  final int trees;
+  final int grasses;
+  final int weeds;
 
-  ForecastCard({required this.label});
+  ForecastCard({required this.label, this.trees = 0, this.grasses = 0, this.weeds = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -24,15 +27,15 @@ class ForecastCard extends StatelessWidget {
               ),
               Expanded(
                 flex: 2,
-                child: CategoryIndicator(value: 81, icon: Icons.park)
+                child: CategoryIndicator(value: this.trees, icon: Icons.park)
               ),
               Expanded(
                 flex: 2,
-                child: CategoryIndicator(value: 42, icon: Icons.grass)
+                child: CategoryIndicator(value: this.grasses, icon: Icons.grass)
               ),
               Expanded(
                 flex: 2,
-                child: CategoryIndicator(value: 12, icon: Icons.spa)
+                child: CategoryIndicator(value: this.weeds, icon: Icons.spa)
               )
             ]
           ),

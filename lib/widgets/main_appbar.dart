@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
+  final String title;
+
+  const MainAppBar({super.key, required this.title});
+
   @override
   Widget build(BuildContext context) {
     return AppBar(
@@ -24,7 +28,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
         const Expanded(child: SizedBox()),
         const Icon(Icons.place_outlined),
         const SizedBox(width: 10),
-        const Text("Cambridge", style: TextStyle(fontSize: 24, fontFamily: 'Nunito')),
+        Text(title, style: const TextStyle(fontSize: 24, fontFamily: 'Nunito')),
         const Expanded(child: SizedBox()),
         IconButton(
           onPressed: () => Navigator.of(context).pushNamed("/locations"),

@@ -2,8 +2,12 @@
 library ambee_api;
 
 import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'keys.dart';
+
+const USE_MOCK_DATA = true;
+const MOCK_DATA_PATH = "lib/apis/response_samples/ambee_sample.json";
 
 /// API class used to make requests to Ambee
 class AmbeeApi {
@@ -15,34 +19,35 @@ class AmbeeApi {
   /// Get pollen data at a given latitude and longitude
   Future<PollenData> getPollenGeospatialCurrent(
       int latitude, int longitude) async {
-    var url = Uri.https("api.ambeedata.com", "/latest/pollen/by-lat-lng",
-        {"lat": latitude, "lng": longitude});
+    final params = <String, String>{"lat": latitude.toString(), "lng": longitude.toString(), "speciesRisk": "false"};
+    var url = Uri.https("api.ambeedata.com", "/latest/pollen/by-lat-lng", params);
     return _getPollenInternal(url);
   }
 
   /// Get pollen data at a given place, given by name
   Future<PollenData> getPollenPlacewiseCurrent(String placename) {
     var url = Uri.https(
-        "api.ambeedata.com", "/latest/pollen/by-place", {"place": placename});
+        "api.ambeedata.com", "/latest/pollen/by-place", {"place": placename, "speciesRisk": "false"});
     return _getPollenInternal(url);
   }
 
   /// Get pollen data for the future at a given latitude and longitude
   Future<PollenData> getPollenGeospatialFuture(
       int latitude, int longitude) async {
-    var url = Uri.https("api.ambeedata.com", "/forecast/pollen/by-lat-lng",
-        {"lat": latitude, "lng": longitude});
+    final params = <String, String>{"lat": latitude.toString(), "lng": longitude.toString(), "speciesRisk": "false"};
+    var url = Uri.https("api.ambeedata.com", "/forecast/pollen/by-lat-lng", params);
     return _getPollenInternal(url);
   }
 
   /// Get pollen data for the future at a given place, given by name
   Future<PollenData> getPollenFuturePlacewise(String placename) {
     var url = Uri.https(
-        "api.ambeedata.com", "/forecast/pollen/by-place", {"place": placename});
+        "api.ambeedata.com", "/forecast/pollen/by-place", {"place": placename, "speciesRisk": "false"});
     return _getPollenInternal(url);
   }
 
   Future<PollenData> _getPollenInternal(Uri url) async {
+    if (USE_MOCK_DATA) return PollenData.fromJson(jsonDecode(await rootBundle.loadString(MOCK_DATA_PATH)));
     var headers = {"x-api-key": apiKey, "Content-type": "application/json"};
     var response = await http.get(url, headers: headers);
     var json = jsonDecode(response.body);

@@ -16,4 +16,6 @@ class LatLngLocation extends RequestLocation {
   final int lat;
   final int lng;
   LatLngLocation({required this.lat, required this.lng});
+
+  factory LatLngLocation.fromCurrentLocation() => LatLngLocation(lat: 52, lng: 1);
 }

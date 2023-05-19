@@ -29,10 +29,10 @@ class _MultistepPageState extends State<MultistepPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
+      body: Stack(
+        alignment: Alignment.bottomCenter,
         children: [
-          Expanded(
-            flex: 1,
+          Positioned.fill(
             child: PageView.builder(
               controller: _controller,
               itemCount: widget.pages.length,
@@ -41,16 +41,20 @@ class _MultistepPageState extends State<MultistepPage> {
               }
             )
           ),
-          Container(
-            child: Padding(
-              padding: const EdgeInsets.all(40),
-              child: Row(
-                children: [
-                  if (currentPage > 0) Opacity(opacity: Math.min(1.0, currentPage), child: ElevatedButton(onPressed: () => prevPage(), child: Text("Back"))),
-                  Expanded(child: Container()),
-                  ElevatedButton(onPressed: () => nextPage(), child: Text("Next")),
-                ]
-              )  
+          Positioned.fill(
+            child: Align(
+              alignment: Alignment.bottomCenter,
+              child: Padding(
+                padding: const EdgeInsets.all(40),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    if (currentPage > 0) Opacity(opacity: Math.min(1.0, currentPage), child: ElevatedButton(onPressed: () => prevPage(), child: Padding(padding: EdgeInsets.all(10), child: const Text("Back")))),
+                    Expanded(child: Container()),
+                    ElevatedButton(onPressed: () => nextPage(), child: Padding(padding: EdgeInsets.all(10), child: const Text("Next"))),
+                  ]
+                )  
+              )
             )
           )
         ]

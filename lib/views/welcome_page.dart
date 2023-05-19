@@ -12,46 +12,88 @@ class WelcomePage extends StatelessWidget {
       pages: [
         Stack(
           children:  [
-            Positioned(
-              top: 0,
-              bottom: 0,
-              right: 0,
-              left: 0,
+            Positioned.fill(
               child: Image.asset(
-              'assets/images/background.jpg',
-              fit: BoxFit.cover,
+                'assets/images/background.jpg',
+                fit: BoxFit.cover,
+              ),
             ),
-            ),
-            const Positioned(
+            Positioned(
               top: 40,
-              bottom: 0,
-              right: 0,
-              left: 10,
+              bottom: 40,
+              right: 40,
+              left: 40,
               child: Column(
-                children:  [
+                children: [
                   Text(
-                  'Welcome!\n',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 40,
-                  ),
-                  textAlign: TextAlign.center,),
-                  Text(
-                    'Please accept our access to your location, we need it to deliver your local pollen data \n\nPlease also select if you want to be notified :D\n\nPress "Next" to continue!',
+                    'Location',
                     style: TextStyle(
                       color: Colors.white,
-                      fontSize: 20,
+                      fontSize: 40,
                     ),
-                    textAlign: TextAlign.center,
-
+                    textAlign: TextAlign.center
                   ),
+                  Flexible(flex: 3, child: Container()),
+                  Expanded(
+                    flex: 4,
+                    child: Text(
+                      'Providing access to your location data let\'s us give more accurate pollen estimates nearby!',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontFamily: "Varela"
+                      ),
+                      textAlign: TextAlign.center,
+                    )
+                  ),
+                  Flexible(flex: 3, child: Container()),
                 ]
               ),
             ),
           ],
-
-
-    )
+        ),
+        Stack(
+          children:  [
+            Positioned.fill(
+              child: Image.asset(
+                'assets/images/background.jpg',
+                fit: BoxFit.cover,
+              ),
+            ),
+            Positioned(
+              top: 40,
+              bottom: 40,
+              right: 40,
+              left: 40,
+              child: Column(
+                children: [
+                  Text(
+                    'Notifications',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 40,
+                    ),
+                    textAlign: TextAlign.center
+                  ),
+                  Flexible(flex: 3, child: Container()),
+                  Expanded(
+                    flex: 4,
+                    child: Text(
+                      'We can send you warnings for high pollen levels nearby\n\nYou can always turn notifications off later, if you change your mind',
+                      style: TextStyle(
+                        color: Colors.white,
+                        fontSize: 24,
+                        fontFamily: "Varela"
+                      ),
+                      textAlign: TextAlign.center,
+                    )
+                  ),
+                  Flexible(flex: 3, child: Container()),
+                ]
+              ),
+            ),
+          ],
+        )
       ]
     );
   }

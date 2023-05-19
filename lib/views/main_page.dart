@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:weather_app/bloc/bloc_provider.dart';
-import 'package:weather_app/bloc/forecast_bloc.dart';
-import 'package:weather_app/prototype/ambee_api.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:weather_app/bloc/forecast/forecast_state.dart';
 import 'package:weather_app/utils/iterable_extensions.dart';
 import 'package:weather_app/utils/list_extensions.dart';
 import 'package:weather_app/widgets/arc_progress_indicator.dart';
@@ -10,7 +9,8 @@ import 'package:weather_app/widgets/main_appbar.dart';
 import 'package:weather_app/widgets/parallax_background.dart';
 import 'package:weather_app/widgets/large_indicator.dart';
 import 'package:weather_app/widgets/forecast_card.dart';
-import 'package:weather_app/models/pollen_forecast.dart';
+
+import '../bloc/forecast/forecast_bloc.dart';
 
 const _greenCol = Color.fromARGB(255, 20, 78, 71);
 const _yellowCol = Color.fromARGB(255, 133, 188, 93);
@@ -53,17 +53,19 @@ class _MainPageState extends State<MainPage> {
 
     return NotificationListener<ScrollNotification>(
       onNotification: _onScroll,
-      child: _MainPageWrapper(
-        scrollOffset: scrollOffset,
-        children: [
-          StreamBuilder<PollenForecast>(
-            stream: forecastBloc.forecast,
-            builder: (context, snapshot) {
-              if (!snapshot.hasData) {
-                return const SafeArea(child: Center(child: CircularProgressIndicator()));
+        child: BlocBuilder<ForecastBloc, ForecastState>(
+            bloc: forecastBloc,
+            builder: (context, state) {
+              if (state.forecast == null) {
+                return const SafeArea(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: CircularProgressIndicator()
+                  )
+                );
               }
-              final current = snapshot.data!.current.data[0];
-              final forecasts = snapshot.data!.forecast.data.groupN(24);
+              final current = state.forecast!.current.data[0];
+              final forecasts = state.forecast!.forecast.data.groupN(24);
               final forecastTimes = forecasts.map((g) => g.skip(12).first).map((el) => DateTime.fromMillisecondsSinceEpoch(el.time! * 1000).weekday);
               final forecastCounts = forecasts
                 .map((g) => g
@@ -72,7 +74,9 @@ class _MainPageState extends State<MainPage> {
                   .map((e) => (e / g.length).toInt()).toList()
                 );
               final forecastData = [[0, [current.count.treePollen, current.count.grassPollen, current.count.weedPollen]]] + [forecastTimes, forecastCounts].zip().toList();
-              return Column(
+              return _MainPageWrapper(
+                title: state.selectedLocation!.displayName,
+                scrollOffset: scrollOffset,
                 children: [
                   const SizedBox(height: 150),
                   const Center(
@@ -114,40 +118,22 @@ class _MainPageState extends State<MainPage> {
               );
             }
           ),
-        ]
-      )
-    );
+      );
   }
-}
-
-class TodayWidget extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final forecastBloc = BlocProvider.of<ForecastBloc>(context);
-    return Scaffold(
-      appBar: AppBar(title: const Text("Home")),
-      body: StreamBuilder<PollenForecast>(
-        stream: forecastBloc.forecast,
-        builder: (context, snapshot) {
-          return Text(snapshot.data?.forecast.data[0].count.treePollen.toString() ?? "No Data");
-        }
-      )
-    );
-  }
-
 }
 
 class _MainPageWrapper extends StatelessWidget {
   final List<Widget> children;
   final double scrollOffset;
+  final String title;
 
-  const _MainPageWrapper({required this.children, this.scrollOffset = 0});
+  const _MainPageWrapper({required this.children, this.scrollOffset = 0, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
-      appBar: MainAppBar(),
+      appBar: MainAppBar(title: title),
       body: Stack(
         children: [
           ParallaxBackground(offset: scrollOffset),

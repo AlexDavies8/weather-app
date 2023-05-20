@@ -1,3 +1,4 @@
+/// Wrapper for [RequestLocation] that add's a display name
 class Location {
   final String displayName;
   final RequestLocation requestLocation;
@@ -5,13 +6,16 @@ class Location {
   Location({required this.displayName, required this.requestLocation});
 }
 
+/// Location Base Type
 class RequestLocation {}
 
+/// Specified by a placename
 class PlacewiseLocation extends RequestLocation {
   final String placename;
   PlacewiseLocation({required this.placename});
 }
 
+/// Specified by a latitude and longitude
 class LatLngLocation extends RequestLocation {
   final int lat;
   final int lng;

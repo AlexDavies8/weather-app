@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'dart:math' as math;
 import 'dart:ui' as ui;
 
+/// Custom Indicator class to render an arc between two angles
 class ArcProgressIndicator extends StatefulWidget {
   final double progress;
   final double minArc;
@@ -80,6 +81,7 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator> with Single
 
 const deg2rad = math.pi / 180;
 
+/// [CustomPainter] for rendering an arc progress bar
 class ProgressArc extends CustomPainter {
   double minArc;
   double maxArc;
@@ -144,6 +146,7 @@ class ProgressArc extends CustomPainter {
   }
 }
 
+/// Simpler gradient class for indicators
 class IndicatorGradient {
   final List<Color> colours;
   final List<double> stops;

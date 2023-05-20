@@ -4,8 +4,9 @@ import 'dart:math' as Math;
 class MultistepPage extends StatefulWidget {
   final List<Widget> pages;
   final Function? onDone;
+  final Future<void> Function(int)? onNextPage;
 
-  const MultistepPage({required this.pages, this.onDone, super.key});
+  const MultistepPage({required this.pages, this.onDone, this.onNextPage, super.key});
 
   @override
   State<StatefulWidget> createState() => _MultistepPageState();
@@ -62,12 +63,13 @@ class _MultistepPageState extends State<MultistepPage> {
     );
   }
 
-  void nextPage() {
+  void nextPage() async {
+    await widget.onNextPage?.call(currentPage.toInt());
     if (currentPage >= widget.pages.length - 1) widget.onDone?.call();
     _controller.nextPage(duration: Duration(milliseconds: 200), curve: Curves.easeInOutCubic);
   }
 
-  void prevPage() {
+  void prevPage() async {
     _controller.previousPage(duration: Duration(milliseconds: 200), curve: Curves.easeInOutCubic);
   }
 }

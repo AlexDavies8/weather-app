@@ -45,6 +45,7 @@ dependencies:
   geolocator: ^9.0.2
   flutter_bloc: ^8.1.2
   equatable: ^2.0.0
+  permission_handler: ^10.2.0
 
 dev_dependencies:
   flutter_test:

@@ -9,12 +9,13 @@ import 'package:weather_app/widgets/main_appbar.dart';
 import 'package:weather_app/widgets/parallax_background.dart';
 import 'package:weather_app/widgets/large_indicator.dart';
 import 'package:weather_app/widgets/forecast_card.dart';
+import 'dart:math' as Math;
 
 import '../bloc/forecast/forecast_bloc.dart';
 
 const _greenCol = Color.fromARGB(255, 20, 78, 71);
 const _yellowCol = Color.fromARGB(255, 133, 188, 93);
-const _orangeCol = Color.fromARGB(255, 255, 208, 105);
+const _orangeCol = Color.fromARGB(255, 255, 217, 64);
 const _redCol = Color.fromARGB(255, 200, 52, 69);
 const _arcIndicatorGradient = IndicatorGradient(
   colours: [_greenCol, _greenCol, _yellowCol, _yellowCol, _orangeCol, _orangeCol, _redCol, _redCol],
@@ -74,15 +75,16 @@ class _MainPageState extends State<MainPage> {
                   .map((e) => (e / g.length).toInt()).toList()
                 );
               final forecastData = [[0, [current.count.treePollen, current.count.grassPollen, current.count.weedPollen]]] + [forecastTimes, forecastCounts].zip().toList();
+              final currentScore = current.count.grassPollen + current.count.treePollen + current.count.weedPollen;
               return _MainPageWrapper(
                 title: state.selectedLocation!.displayName,
                 scrollOffset: scrollOffset,
                 children: [
                   const SizedBox(height: 150),
-                  const Center(
+                  Center(
                     child: Padding(
                       padding: EdgeInsets.all(60),
-                      child: LargeIndicator(min: 0, max: 100, value: 74, gradient: _arcIndicatorGradient)
+                      child: LargeIndicator(min: 0, max: 800, value: currentScore, gradient: _arcIndicatorGradient)
                     )
                   ),
                   const SizedBox(height: 132),

@@ -3,9 +3,9 @@ import 'package:weather_app/prototype/arc_progress_indicator.dart';
 import 'dart:math' as Math;
 
 const colours = [
-  Color.fromARGB(255, 20, 78, 71),
+  Color.fromARGB(255, 13, 100, 51),
   Color.fromARGB(255, 133, 188, 93),
-  Color.fromARGB(255, 255, 208, 105),
+  Color.fromARGB(255, 255, 217, 64),
   Color.fromARGB(255, 255, 127, 52),
   Color.fromARGB(255, 200, 52, 69),
 ];

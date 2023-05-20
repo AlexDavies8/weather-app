@@ -71,7 +71,10 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator> with Single
                 )
               )
             ),
-            Text(widget.label, textAlign: TextAlign.center, style: TextStyle(fontSize: minDim / 3, fontFamily: 'Nunito'))
+            Padding(
+              padding: EdgeInsets.only(bottom: 16),
+              child: Text(widget.label, textAlign: TextAlign.center, style: TextStyle(fontSize: minDim / 3, fontFamily: 'Nunito')),
+            )
           ],
         );
       }

@@ -55,13 +55,13 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
     if (USE_FLAT_BACKGROUND) {
       return [
         ParallaxElement(depth: 10000, expandHeight: true, yOffset: 0, child: Image.asset("assets/images/slice1.png", fit: BoxFit.cover)),
-        ParallaxElement(depth: 35, xOffset: 150, yOffset: 100, child: Image.asset("assets/images/slice7.png", fit: BoxFit.cover)),
+        ParallaxElement(depth: 25, xOffset: 150, yOffset: 130, child: Image.asset("assets/images/slice7.png", fit: BoxFit.cover)),
         ParallaxElement(depth: 45, xOffset: -20, yOffset: 200, child: Image.asset("assets/images/slice6.png", fit: BoxFit.cover)),
         ParallaxElement(depth: 30, yOffset: 300, child: Image.asset("assets/images/slice2.png", fit: BoxFit.cover)),
         ParallaxElement(depth: 15, yOffset: 420, child: Image.asset("assets/images/slice3.png", fit: BoxFit.cover)),
         ParallaxElement(depth: 6, xOffset: -10, yOffset: 550, child: Image.asset("assets/images/slice4.png", fit: BoxFit.cover)),
         ParallaxElement(depth: 0, expandHeight: true, yOffset: 1000, child: Container(color: const Color.fromARGB(255, 50, 142, 77))),
-        ParallaxElement(depth: 2, yOffset: 700, child: Image.asset("assets/images/slice5.png", fit: BoxFit.cover)),
+        ParallaxElement(depth: 1, yOffset: 700, child: Image.asset("assets/images/slice5.png", fit: BoxFit.cover)),
       ];
     }
     return [
@@ -95,7 +95,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
           ShaderMask(
               shaderCallback: (Rect bounds) {
                 return const LinearGradient(
-                  colors: [Color.fromARGB(255, 237, 237, 237), Color.fromARGB(255, 231, 226, 98)],
+                  colors: [Color.fromARGB(255, 237, 237, 237), Color.fromARGB(255, 255, 253, 192)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ).createShader(bounds);
@@ -113,7 +113,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
           ShaderMask(
               shaderCallback: (Rect bounds) {
                 return const LinearGradient(
-                  colors: [Color.fromARGB(255, 188, 188, 21),Color.fromARGB(255, 255, 255, 255)],
+                  colors: [Color.fromARGB(255, 180, 227, 114),Color.fromARGB(255, 200, 205, 64)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ).createShader(bounds);
@@ -131,7 +131,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
           ShaderMask(
               shaderCallback: (Rect bounds) {
                 return const LinearGradient(
-                  colors: [Color.fromARGB(255, 89, 168, 56),Color.fromARGB(255, 204, 245, 165)],
+                  colors: [Color.fromARGB(255, 31, 145, 60),Color.fromARGB(255, 49, 88, 72)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ).createShader(bounds);
@@ -149,7 +149,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
           ShaderMask(
               shaderCallback: (Rect bounds) {
                 return const LinearGradient(
-                  colors: [Color.fromARGB(255, 38, 122, 2),Color.fromARGB(255, 136, 161, 129)],
+                  colors: [Color.fromARGB(255, 83, 182, 103),Color.fromARGB(255, 57, 124, 73)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ).createShader(bounds);
@@ -167,7 +167,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
           ShaderMask(
               shaderCallback: (Rect bounds) {
                 return const LinearGradient(
-                  colors: [Color.fromARGB(255, 0, 0, 0),Color.fromARGB(255, 10, 102, 53)],
+                  colors: [Color.fromARGB(255, 214, 246, 93),Color.fromARGB(255, 50, 142, 77)],
                   begin: Alignment.topCenter,
                   end: Alignment.bottomCenter,
                 ).createShader(bounds);
@@ -183,7 +183,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
       // ParallaxElement(depth: 50, child: Image.asset("assets/images/Layer3.png", fit: BoxFit.cover, color: Color.fromARGB(255, 157, 192, 139))),
       // ParallaxElement(depth: 15, child: Image.asset("assets/images/Layer2.png", fit: BoxFit.cover, color: Color.fromARGB(255, 96, 153, 102))),
       // ParallaxElement(depth: 0.1, child: Image.asset("assets/images/Layer1.png", fit: BoxFit.cover, color: Color.fromARGB(255, 64, 81, 59))),
-      ParallaxElement(depth: 0.1, expandHeight: true, yOffset: 1000*scaleFactor, child: Container(color: Color.fromARGB(255, 8, 82, 42))),
+      ParallaxElement(depth: 0.1, expandHeight: true, yOffset: 1248*scaleFactor, child: Container(color: Color.fromARGB(255, 50, 142, 77))),
 
       //Clouds Again
       ParallaxElement(depth: 10, yOffset: 100*scaleFactor, child: 
@@ -199,7 +199,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
               child: Image.asset(
                 'assets/images/Clouds.png',
                 fit: BoxFit.cover,
-                color: Color.fromARGB(124, 255, 255, 255),
+                color: Color.fromARGB(100, 255, 255, 255),
               ),
           )
       ),

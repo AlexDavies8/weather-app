@@ -22,19 +22,20 @@ class ForecastCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Expanded(
-                flex: 3,
-                child: Text(label, textAlign: TextAlign.center, style: TextStyle(fontFamily: "Nunito", fontSize: 20))
+                flex: 4,
+                child: Text(label, textAlign: TextAlign.right, style: TextStyle(fontFamily: "Nunito", fontSize: 20))
               ),
+              Expanded(flex: 1, child: Container()),
               Expanded(
-                flex: 2,
+                flex: 4,
                 child: CategoryIndicator(value: this.trees, icon: Icons.park)
               ),
               Expanded(
-                flex: 2,
+                flex: 4,
                 child: CategoryIndicator(value: this.grasses, icon: Icons.grass)
               ),
               Expanded(
-                flex: 2,
+                flex: 4,
                 child: CategoryIndicator(value: this.weeds, icon: Icons.spa)
               )
             ]

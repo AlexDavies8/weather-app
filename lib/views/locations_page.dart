@@ -57,14 +57,16 @@ class _LocationsPageState extends State<LocationsPage> {
         builder: (context, state) {
           return Column(children: state.locations.map((location) {
             final selected = location == state.selectedLocation;
-            return SettingsItem(
-              text: location.displayName,
-              leading: Icon(Icons.place, color: selected ? theme.colorScheme.primary : theme.textTheme.labelLarge!.color),
-              onTap: () {
-                forecastBloc.add(SelectLocation(location));
-                Navigator.pop(context);
-              },
-              trailing: location.displayName == "My Location" ? null : SizedBox(height: 20, child: IconButton(
+            return SizedBox(
+              height: 80,
+              child: SettingsItem(
+                text: location.displayName,
+                leading: Icon(Icons.place, color: selected ? theme.colorScheme.primary : theme.textTheme.labelLarge!.color),
+                onTap: () {
+                  forecastBloc.add(SelectLocation(location));
+                  Navigator.pop(context);
+                },
+                trailing: location.displayName == "My Location" ? null : IconButton(
                   splashRadius: 20,
                   onPressed: () => forecastBloc.add(RemoveLocation(location)),
                   tooltip: 'Remove',
@@ -73,10 +75,13 @@ class _LocationsPageState extends State<LocationsPage> {
               )
             );
           }).toList() + [
-            SettingsItem(
-              text: "Add Location",
-              leading: const Icon(Icons.add),
-              onTap: () => _showAddDialog(forecastBloc)
+            SizedBox(
+              height: 80,
+              child: SettingsItem(
+                text: "Add Location",
+                leading: const Icon(Icons.add),
+                onTap: () => _showAddDialog(forecastBloc)
+              )
             )
           ]
           );

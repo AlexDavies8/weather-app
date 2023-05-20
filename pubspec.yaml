@@ -75,6 +75,7 @@ flutter:
   #   - images/a_dot_ham.jpeg
   assets:
     - assets/images/
+    - assets/heatmap_placeholder.png
     - lib/apis/response_samples/ambee_sample.json
 
   # An image asset can refer to one or more resolution-specific "variants", see

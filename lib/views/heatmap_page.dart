@@ -35,7 +35,7 @@ class HeatmapPage extends StatelessWidget {
                 urlTemplate:
                     'https://tiles.breezometer.com/v1/pollen/tree/forecast/daily/{z}/{x}/{y}.png?key={key}',
                 fallbackUrl:
-                    'https://upload.wikimedia.org/wikipedia/en/9/98/Blank_button.svg',
+                    'https://upload.wikimedia.org/wikipedia/commons/4/48/BLANK_ICON.png',
                 backgroundColor: Colors.transparent,
                 tileDisplay: const TileDisplay.instantaneous(opacity: 0.65),
                 additionalOptions: const {

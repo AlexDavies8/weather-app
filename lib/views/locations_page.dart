@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:weather_app/bloc/forecast/forecast_bloc.dart';
 import 'package:weather_app/bloc/forecast/forecast_event.dart';
+import 'package:weather_app/widgets/settings_item.dart';
 
 import '../bloc/forecast/forecast_state.dart';
 import '../models/location.dart';
@@ -50,55 +51,32 @@ class _LocationsPageState extends State<LocationsPage> {
     final forecastBloc = BlocProvider.of<ForecastBloc>(context);
     final theme = Theme.of(context);
     return Scaffold(
-      appBar: AppBar(title: Text("Locations")),
+      appBar: AppBar(title: const Text("Locations")),
       body: BlocBuilder<ForecastBloc, ForecastState>(
         bloc: forecastBloc,
         builder: (context, state) {
           return Column(children: state.locations.map((location) {
             final selected = location == state.selectedLocation;
-            return Material(
-              color: selected ? theme.focusColor : Colors.transparent,
-              child: InkWell(
-                hoverColor: theme.hoverColor,
-                onTap: () {
-                  forecastBloc.add(SelectLocation(location));
-                  Navigator.pop(context);
-                },
-                child: Padding(
-                  padding: EdgeInsets.all(24),
-                  child: Row(
-                    children: [
-                      Icon(Icons.place, color: selected ? theme.colorScheme.primary : theme.textTheme.labelLarge!.color),
-                      SizedBox(width: 16),
-                      Expanded(child: Text(location.displayName, style: TextStyle(fontSize: 18))),
-                      if (location.displayName != "My Location") IconButton(
-                        splashRadius: 20,
-                        onPressed: () => forecastBloc.add(RemoveLocation(location)),
-                        tooltip: 'Remove',
-                        icon: const Icon(Icons.delete),
-                      )
-                    ]
-                  )
+            return SettingsItem(
+              text: location.displayName,
+              leading: Icon(Icons.place, color: selected ? theme.colorScheme.primary : theme.textTheme.labelLarge!.color),
+              onTap: () {
+                forecastBloc.add(SelectLocation(location));
+                Navigator.pop(context);
+              },
+              trailing: location.displayName == "My Location" ? null : SizedBox(height: 20, child: IconButton(
+                  splashRadius: 20,
+                  onPressed: () => forecastBloc.add(RemoveLocation(location)),
+                  tooltip: 'Remove',
+                  icon: const Icon(Icons.delete),
                 )
               )
             );
           }).toList() + [
-            Material(
-              color: Colors.transparent,
-              child: InkWell(
-                hoverColor: theme.hoverColor,
-                onTap: () => _showAddDialog(forecastBloc),
-                child: Padding(
-                  padding: EdgeInsets.all(20),
-                  child: Row(
-                    children: [
-                      Icon(Icons.add),
-                      SizedBox(width: 16),
-                      Expanded(child: Text("Add Location", style: TextStyle(fontSize: 18))),
-                    ]
-                  )
-                )
-              )
+            SettingsItem(
+              text: "Add Location",
+              leading: const Icon(Icons.add),
+              onTap: () => _showAddDialog(forecastBloc)
             )
           ]
           );

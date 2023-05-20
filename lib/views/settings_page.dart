@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:weather_app/widgets/settings_item.dart';
 
 class SettingsPage extends StatefulWidget {
   const SettingsPage({super.key});
@@ -28,59 +29,25 @@ class _SettingsPageState extends State<SettingsPage> {
   }
 
   Widget buildSettingsList() {
-    final theme = Theme.of(context);
     return SizedBox.expand(
       child: Column(
         children: [
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              hoverColor: theme.hoverColor,
-              onTap: () => _settings.notifications = !_settings.notifications,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-                child: Row(
-                  children: [
-                    Padding(padding: EdgeInsets.only(right: 20), child: Icon(Icons.notifications)),
-                    Expanded(child: Text("Enable Notifications", style: TextStyle(fontSize: 18))),
-                    Switch(value: _settings.notifications, onChanged: (value) => _settings.notifications = value)
-                  ]
-                )
-              )
-            ),
+          SettingsItem.toggle(
+            text: "Enable Notifications",
+            value: _settings.notifications,
+            onChanged: (value) => _settings.notifications = value,
+            leading: const Icon(Icons.notifications),
           ),
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              hoverColor: theme.hoverColor,
-              onTap: openLocationSettings,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Row(
-                  children: [
-                    Expanded(child: Text("Location Settings", style: TextStyle(fontSize: 18))),
-                    Padding(padding: EdgeInsets.only(left: 20), child: Icon(Icons.exit_to_app)),
-                  ]
-                )
-              )
-            ),
+          SettingsItem(
+            text: "Location Settings",
+            onTap: openLocationSettings,
+            trailing: const Icon(Icons.exit_to_app),
           ),
-          Material(
-            color: Colors.transparent,
-            child: InkWell(
-              hoverColor: theme.hoverColor,
-              onTap: _settings.resetWelcomeScreen,
-              child: Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20, vertical: 20),
-                child: Row(
-                  children: [
-                    Expanded(child: Text("Reset Welcome Page", style: TextStyle(fontSize: 18))),
-                    Padding(padding: EdgeInsets.only(left: 20), child: Icon(Icons.build)),
-                  ]
-                )
-              )
-            ),
-          )
+          SettingsItem(
+            text: "Reset Welcome Screen",
+            onTap: _settings.resetWelcomeScreen,
+            trailing: const Icon(Icons.restart_alt),
+          ),
         ]
       )
     );

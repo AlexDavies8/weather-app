@@ -1,5 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/prototype/arc_progress_indicator.dart';
+import 'dart:math' as Math;
+
+const colours = [
+  Color.fromARGB(255, 20, 78, 71),
+  Color.fromARGB(255, 133, 188, 93),
+  Color.fromARGB(255, 255, 208, 105),
+  Color.fromARGB(255, 255, 127, 52),
+  Color.fromARGB(255, 200, 52, 69),
+];
 
 class CategoryIndicator extends StatelessWidget {
   final int min;
@@ -12,6 +21,7 @@ class CategoryIndicator extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
+    final clampedValue = Math.max(Math.min(value, max), min);
     return Column(
       children: [
         SizedBox(
@@ -24,13 +34,13 @@ class CategoryIndicator extends StatelessWidget {
                 width: 70,
                 height: 70,
                 child: ArcProgressIndicator(
-                  (value - min) / (max - min),
+                  (clampedValue - min) / (max - min),
                   label: value.toString(),
                   minArc: -225,
                   maxArc: 45,
                   strokeWidth: 8,
                   backgroundColor: Colors.white12,
-                  fillColor: Colors.lightGreen,
+                  fillColor: colours[clampedValue ~/ ((max+1) ~/ 5)],
                 )
               ),
               if (icon != null) Positioned(

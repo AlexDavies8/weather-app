@@ -42,9 +42,10 @@ class _MainPageState extends State<MainPage> {
   double scrollOffset = 0;
 
   bool _onScroll(ScrollNotification notification) {
-    setState(() {
+    WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
       scrollOffset = notification.metrics.pixels;
-    });
+    }));
+    
     return true;
   }
 

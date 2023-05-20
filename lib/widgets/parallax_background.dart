@@ -39,19 +39,19 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final scaleFactor = screenWidth / 500;
 
     return ParallaxCamera(
       depth: -10,
-      y: -widget.offset + animation.value * 200,
+      y: (-widget.offset + animation.value * 200) / scaleFactor,
       child: Stack(
-        children: buildElements(),
+        children: buildElements(scaleFactor),
       )
     ) ;
   }
 
-  List<Widget> buildElements() {
-    final screenHeight = MediaQuery.of(context).size.height;
-    final scaleFactor = screenHeight / 1000;
+  List<Widget> buildElements(double scaleFactor) {
     if (USE_FLAT_BACKGROUND) {
       return [
         ParallaxElement(depth: 10000, expandHeight: true, yOffset: 0, child: Image.asset("assets/images/slice1.png", fit: BoxFit.cover)),
@@ -83,7 +83,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
       ),
 
       //Sun
-      ParallaxElement(depth: 200, expandHeight: true, xOffset: 400, yOffset:50, child: Image.asset(
+      ParallaxElement(depth: 200, expandHeight: true, xOffset: 400 * scaleFactor, yOffset: 50 * scaleFactor, child: Image.asset(
                 'assets/images/Sun.png',
                 fit: BoxFit.cover,
                 color:Colors.yellow,
@@ -183,10 +183,10 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
       // ParallaxElement(depth: 50, child: Image.asset("assets/images/Layer3.png", fit: BoxFit.cover, color: Color.fromARGB(255, 157, 192, 139))),
       // ParallaxElement(depth: 15, child: Image.asset("assets/images/Layer2.png", fit: BoxFit.cover, color: Color.fromARGB(255, 96, 153, 102))),
       // ParallaxElement(depth: 0.1, child: Image.asset("assets/images/Layer1.png", fit: BoxFit.cover, color: Color.fromARGB(255, 64, 81, 59))),
-      ParallaxElement(depth: 0.1, expandHeight: true, yOffset: 1248*scaleFactor, child: Container(color: Color.fromARGB(255, 50, 142, 77))),
+      ParallaxElement(depth: 0.1, expandHeight: true, yOffset: 1199, child: Container(color: const Color.fromARGB(255, 50, 142, 77))),
 
       //Clouds Again
-      ParallaxElement(depth: 10, yOffset: 100*scaleFactor, child: 
+      ParallaxElement(depth: 10, yOffset: 100 * scaleFactor, child: 
           ShaderMask(
               shaderCallback: (Rect bounds) {
                 return const LinearGradient(

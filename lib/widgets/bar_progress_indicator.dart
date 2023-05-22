@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+// A prototype progress bar widget
 class BarProgressIndicator extends StatefulWidget {
   final double progress;
   final Color backgroundColor;

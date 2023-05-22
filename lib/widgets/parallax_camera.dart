@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// A class representing a camera widget to create parallax effects
 class ParallaxCamera extends StatelessWidget {
   final Widget child;
   final double x;

@@ -2,6 +2,7 @@ import 'package:weather_app/models/pollen_forecast.dart';
 
 import '../../models/location.dart';
 
+/// A class representing the state of the forecast page
 class ForecastState {
   final List<Location> locations;
   Location? selectedLocation;

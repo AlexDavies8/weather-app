@@ -33,6 +33,7 @@ const days = [
   "Sunday",
 ];
 
+/// The home page of the app that displays the forecast
 class MainPage extends StatefulWidget {
   @override
   State<StatefulWidget> createState() => _MainPageState();
@@ -78,18 +79,21 @@ class _MainPageState extends State<MainPage> {
               final forecastData = [[0, [current.count.treePollen, current.count.grassPollen, current.count.weedPollen]]] + [forecastTimes, forecastCounts].zip().toList();
               final currentScore = current.count.grassPollen + current.count.treePollen + current.count.weedPollen;
               return _MainPageWrapper(
+                // The wrapper that contains the background and the main content
                 title: state.selectedLocation!.displayName,
                 scrollOffset: scrollOffset,
                 children: [
                   const SizedBox(height: 150),
                   Center(
                     child: Padding(
+                      // The main indicator that shows the current pollen level
                       padding: EdgeInsets.all(60),
-                      child: LargeIndicator(min: 0, max: 800, value: currentScore, gradient: _arcIndicatorGradient)
+                      child: LargeIndicator(min: 0, max: 800, value: currentScore, gradient: _arcIndicatorGradient) 
                     )
                   ),
                   const SizedBox(height: 132),
                   Padding(
+                    // The indicators that show the current pollen levels for each category
                     padding: EdgeInsets.all(40),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -107,6 +111,7 @@ class _MainPageState extends State<MainPage> {
                     height: 2,
                   ),
                   Padding(
+                    // The forecast cards that show the pollen levels for the next 3 days
                     padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
                     child: Column(
                       children: forecastData.map((data) => ForecastCard(
@@ -139,7 +144,7 @@ class _MainPageWrapper extends StatelessWidget {
       appBar: MainAppBar(title: title),
       body: Stack(
         children: [
-          ParallaxBackground(offset: scrollOffset),
+          ParallaxBackground(offset: scrollOffset), // The background that moves when the user scrolls
           Positioned.fill(
             child: SingleChildScrollView(
               child: Column(

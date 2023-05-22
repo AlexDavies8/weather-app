@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/widgets/parallax_camera.dart';
 
+/// A class representing a widget that can be rendered with a parallax effect
 class ParallaxElement extends StatelessWidget {
   final Widget child;
   final double depth;

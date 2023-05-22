@@ -10,6 +10,7 @@ const colours = [
   Color.fromARGB(255, 200, 52, 69),
 ];
 
+/// Custom Indicator to render a small speedometer-style indicator arc using the [ArcProgressIndicator] class
 class CategoryIndicator extends StatelessWidget {
   final int min;
   final int max;

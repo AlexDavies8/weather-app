@@ -7,6 +7,7 @@ import 'package:weather_app/widgets/settings_item.dart';
 import '../bloc/forecast/forecast_state.dart';
 import '../models/location.dart';
 
+/// The page for managing one's locations
 class LocationsPage extends StatefulWidget {
   const LocationsPage({Key? key}) : super(key: key);
 
@@ -17,6 +18,7 @@ class LocationsPage extends StatefulWidget {
 class _LocationsPageState extends State<LocationsPage> {
   TextEditingController controller = TextEditingController();
 
+  /// Shows a dialog box for adding a new location
   void _showAddDialog(ForecastBloc bloc) {
     showDialog(
       context: context,
@@ -57,6 +59,7 @@ class _LocationsPageState extends State<LocationsPage> {
         builder: (context, state) {
           return Column(children: state.locations.map((location) {
             final selected = location == state.selectedLocation;
+            // A list of all the locations, with an option to add a new location
             return SizedBox(
               height: 80,
               child: SettingsItem(
@@ -71,10 +74,11 @@ class _LocationsPageState extends State<LocationsPage> {
                   onPressed: () => forecastBloc.add(RemoveLocation(location)),
                   tooltip: 'Remove',
                   icon: const Icon(Icons.delete),
-                )
+                ) // only show a Delete button if it's not one's current location
               )
             );
           }).toList() + [
+            // Add Location button
             SizedBox(
               height: 80,
               child: SettingsItem(

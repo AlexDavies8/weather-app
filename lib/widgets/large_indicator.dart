@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/widgets/arc_progress_indicator.dart';
 
+/// Custom Indicator class to render a large speedometer-style indicator arc using the [ArcProgressIndicator] class
 class LargeIndicator extends StatefulWidget {
   final int min;
   final int max;

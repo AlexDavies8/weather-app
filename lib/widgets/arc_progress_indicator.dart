@@ -37,14 +37,16 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator> with Single
   void initState() {
     super.initState();
 
+    // Create an animation controller for the progress indicator
     animController = AnimationController(duration: const Duration(seconds: 1), vsync: this);
   
+    // Create the animation for the progress indicator on startup
     animation = Tween(begin: 0.0, end: 1.0)
       .animate(CurvedAnimation(parent: animController, curve: Curves.easeInOutCubic))
       ..addListener(() {
         setState(() {});
       });
-    animController.forward();
+    animController.forward(); // Start the animation
   }
 
   @override
@@ -82,7 +84,7 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator> with Single
   }
 }
 
-const deg2rad = math.pi / 180;
+const deg2rad = math.pi / 180; // Conversion factor from degrees to radians
 
 /// [CustomPainter] for rendering an arc progress bar
 class ProgressArc extends CustomPainter {

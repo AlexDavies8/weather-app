@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// A widget representing a single location in the location list or setting on the settings page
 class SettingsItem extends StatelessWidget {
   final Function? onTap;
   final Widget? leading;
@@ -14,6 +15,7 @@ class SettingsItem extends StatelessWidget {
     super.key
   });
 
+  /// A factory constructor for creating a SettingsItem with a toggle switch
   factory SettingsItem.toggle({
     required String text,
     required bool value,

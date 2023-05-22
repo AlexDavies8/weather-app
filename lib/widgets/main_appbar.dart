@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// A class representing the title bar on the home page
 class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
 
@@ -18,6 +19,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
         ),
       ),
       title: Row(mainAxisAlignment: MainAxisAlignment.center, children: [
+        // Heatmap button
         IconButton(
           onPressed: () => Navigator.of(context).pushNamed("/heatmap"),
           icon: const Icon(
@@ -26,10 +28,13 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
         ),
         const Expanded(child: SizedBox()),
+        // Location icon
         const Icon(Icons.place_outlined),
         const SizedBox(width: 10),
+        // Currently selected location
         Text(title, style: const TextStyle(fontSize: 24, fontFamily: 'Nunito')),
         const Expanded(child: SizedBox()),
+        // Location list button
         IconButton(
           onPressed: () => Navigator.of(context).pushNamed("/locations"),
           icon: const Icon(
@@ -37,6 +42,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
             size: 24.0,
           ),
         ),
+        // Settings button
         IconButton(
           onPressed: () => Navigator.of(context).pushNamed("/settings"),
           icon: const Icon(
@@ -50,7 +56,7 @@ class MainAppBar extends StatelessWidget implements PreferredSizeWidget {
       foregroundColor: Colors.white,
     );
   }
-  
+
   @override
   Size get preferredSize => const Size.fromHeight(kToolbarHeight);
 }

@@ -3,6 +3,7 @@ import 'package:permission_handler/permission_handler.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app/widgets/multistep_page.dart';
 
+/// A class representing the onboarding page of the app using the [MultistepPage] widget
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
   
@@ -13,19 +14,20 @@ class WelcomePage extends StatelessWidget {
       onNextPage: (page) async {
         if (page == 0) {
           try {
-            await Permission.location.request();
+            await Permission.location.request(); // Request location permission
           } catch (_) {
             print("No permissions on this device");
           }
         } else {
           try {
-            await Permission.notification.request();
+            await Permission.notification.request(); // Request notification permission
           } catch (_) {
             print("No permissions on this device");
           }
         }
       },
       pages: [
+        // Page 1 - Ask for location permission
         Stack(
           children:  [
             Positioned.fill(
@@ -70,6 +72,7 @@ class WelcomePage extends StatelessWidget {
             ),
           ],
         ),
+        // Page 2 - Ask for notification permission
         Stack(
           children:  [
             Positioned.fill(
@@ -119,9 +122,11 @@ class WelcomePage extends StatelessWidget {
   }
 
   void _completedWelcome(BuildContext context) async {
+    // Navigate to the home page
     Navigator.of(context).pushNamedAndRemoveUntil("/", (route) => false);
 
     final prefs = await SharedPreferences.getInstance();
-    await prefs.setBool('completedWelcome', true);
+    await prefs.setBool('completedWelcome', true); // Mark the welcome screen as completed so it doesn't appear again 
+
   }
 }

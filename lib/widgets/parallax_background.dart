@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/widgets/parallax_camera.dart';
 import 'package:weather_app/widgets/parallax_element.dart';
 
+/// Set this to true to use a flat background instead of the parallax effect
 const USE_FLAT_BACKGROUND = false;
 
+/// A class representing a parallax background widget using several [ParallaxElement] layers and a [ParallaxCamera] widget
 class ParallaxBackground extends StatefulWidget {
   final double offset;
 
@@ -53,6 +55,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
 
   List<Widget> buildElements(double scaleFactor) {
     if (USE_FLAT_BACKGROUND) {
+      // Returns a flat background with no parallax effect
       return [
         ParallaxElement(depth: 10000, expandHeight: true, yOffset: 0, child: Image.asset("assets/images/slice1.png", fit: BoxFit.cover)),
         ParallaxElement(depth: 25, xOffset: 150, yOffset: 130, child: Image.asset("assets/images/slice7.png", fit: BoxFit.cover)),
@@ -82,7 +85,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
           ),
       ),
 
-      //Sun
+      // Sun
       ParallaxElement(depth: 200, expandHeight: true, xOffset: 400 * scaleFactor, yOffset: 50 * scaleFactor, child: Image.asset(
                 'assets/images/Sun.png',
                 fit: BoxFit.cover,
@@ -90,7 +93,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
               ),
       ),
 
-      //Clouds
+      // Clouds
       ParallaxElement(depth: 100, child: 
           ShaderMask(
               shaderCallback: (Rect bounds) {
@@ -108,7 +111,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
           )
       ),
 
-      //Layer 4
+      // Layer 4
       ParallaxElement(depth: 50, child: 
           ShaderMask(
               shaderCallback: (Rect bounds) {
@@ -126,7 +129,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
           )
       ),
 
-      //Layer 3
+      // Layer 3
       ParallaxElement(depth: 30, child: 
           ShaderMask(
               shaderCallback: (Rect bounds) {
@@ -144,7 +147,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
           )
       ),
 
-      //Layer 2
+      // Layer 2
       ParallaxElement(depth: 10, child: 
           ShaderMask(
               shaderCallback: (Rect bounds) {
@@ -162,7 +165,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
           )
       ),
 
-      //Layer 2
+      // Layer 1
       ParallaxElement(depth: 0.1, child: 
           ShaderMask(
               shaderCallback: (Rect bounds) {
@@ -185,7 +188,7 @@ class _ParallaxBackgroundState extends State<ParallaxBackground> with SingleTick
       // ParallaxElement(depth: 0.1, child: Image.asset("assets/images/Layer1.png", fit: BoxFit.cover, color: Color.fromARGB(255, 64, 81, 59))),
       ParallaxElement(depth: 0.1, expandHeight: true, yOffset: 1199, child: Container(color: const Color.fromARGB(255, 50, 142, 77))),
 
-      //Clouds Again
+      // Semi-transparent clouds in front of the sun
       ParallaxElement(depth: 10, yOffset: 100 * scaleFactor, child: 
           ShaderMask(
               shaderCallback: (Rect bounds) {

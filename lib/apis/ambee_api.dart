@@ -7,8 +7,8 @@ import 'package:http/http.dart' as http;
 import 'keys.dart';
 
 // Returns mock data if true to avoid API rate limits
-const USE_MOCK_DATA = true;
-const MOCK_DATA_PATH = "lib/apis/response_samples/ambee_sample.json";
+const useMockData = true;
+const mockDataPath = "lib/apis/response_samples/ambee_sample.json";
 
 /// API class used to make requests to Ambee
 class AmbeeApi {
@@ -59,9 +59,10 @@ class AmbeeApi {
 
   /// Makes a request to the Ambee API and returns the parsed response
   Future<PollenData> _getPollenInternal(Uri url) async {
-    if (USE_MOCK_DATA)
+    if (useMockData) {
       return PollenData.fromJson(
-          jsonDecode(await rootBundle.loadString(MOCK_DATA_PATH)));
+          jsonDecode(await rootBundle.loadString(mockDataPath)));
+    }
     var headers = {"x-api-key": apiKey, "Content-type": "application/json"};
     var response = await http.get(url, headers: headers);
     var json = jsonDecode(response.body);

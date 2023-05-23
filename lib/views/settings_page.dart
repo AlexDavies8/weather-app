@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:weather_app/widgets/settings_item.dart';
@@ -19,44 +18,39 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Settings")),
-      body: AnimatedBuilder(
-        // AnimatedBuilder is used to load the settings from SharedPreferences
-        animation: _settings,
-        builder: (context, child) {
-          // Build the settings list if the settings have been loaded
-          if (_settings.hasData) return buildSettingsList();
-          // Show a loading indicator while the settings are loading
-          return const Center(child: CircularProgressIndicator());
-        }
-      )
-    );
+        appBar: AppBar(title: const Text("Settings")),
+        body: AnimatedBuilder(
+            // AnimatedBuilder is used to load the settings from SharedPreferences
+            animation: _settings,
+            builder: (context, child) {
+              // Build the settings list if the settings have been loaded
+              if (_settings.hasData) return buildSettingsList();
+              // Show a loading indicator while the settings are loading
+              return const Center(child: CircularProgressIndicator());
+            }));
   }
 
   // Build the list of settings
   Widget buildSettingsList() {
     return SizedBox.expand(
-      child: Column(
-        children: [
-          SettingsItem.toggle(
-            text: "Enable Notifications",
-            value: _settings.notifications,
-            onChanged: (value) => _settings.notifications = value,
-            leading: const Icon(Icons.notifications),
-          ),
-          SettingsItem(
-            text: "Location Settings",
-            onTap: openLocationSettings,
-            trailing: const Icon(Icons.exit_to_app),
-          ),
-          SettingsItem(
-            text: "Reset Welcome Screen",
-            onTap: _settings.resetWelcomeScreen,
-            trailing: const Icon(Icons.restart_alt),
-          ),
-        ]
-      )
-    );
+        child: Column(children: [
+      SettingsItem.toggle(
+        text: "Enable Notifications",
+        value: _settings.notifications,
+        onChanged: (value) => _settings.notifications = value,
+        leading: const Icon(Icons.notifications),
+      ),
+      SettingsItem(
+        text: "Location Settings",
+        onTap: openLocationSettings,
+        trailing: const Icon(Icons.exit_to_app),
+      ),
+      SettingsItem(
+        text: "Reset Welcome Screen",
+        onTap: _settings.resetWelcomeScreen,
+        trailing: const Icon(Icons.restart_alt),
+      ),
+    ]));
   }
 
   // Set the notifications setting
@@ -68,7 +62,9 @@ class _SettingsPageState extends State<SettingsPage> {
 
   // Open the phone's location settings page
   void openLocationSettings() {
-    Geolocator.openLocationSettings().catchError((_) => print("Can't open settings on current platform")).ignore();
+    Geolocator.openLocationSettings()
+        .catchError((_) => print("Can't open settings on current platform"))
+        .ignore();
   }
 
   // Show the welcome screen again on the next app launch

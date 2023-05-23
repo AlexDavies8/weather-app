@@ -13,36 +13,37 @@ class ArcProgressIndicator extends StatefulWidget {
   final double strokeWidth;
   final IndicatorGradient? gradient;
 
-  const ArcProgressIndicator({
-    required this.progress,
-    required this.minArc,
-    required this.maxArc,
-    this.backgroundColor = Colors.grey,
-    this.fillColor = Colors.blue,
-    this.label = "",
-    this.strokeWidth = 25,
-    this.gradient,
-    super.key
-  });
+  const ArcProgressIndicator(
+      {required this.progress,
+      required this.minArc,
+      required this.maxArc,
+      this.backgroundColor = Colors.grey,
+      this.fillColor = Colors.blue,
+      this.label = "",
+      this.strokeWidth = 25,
+      this.gradient,
+      super.key});
 
   @override
   State<StatefulWidget> createState() => _ArcProgressIndicatorState();
 }
 
-class _ArcProgressIndicatorState extends State<ArcProgressIndicator> with SingleTickerProviderStateMixin {
+class _ArcProgressIndicatorState extends State<ArcProgressIndicator>
+    with SingleTickerProviderStateMixin {
   late Animation<double> animation;
   late AnimationController animController;
-  
+
   @override
   void initState() {
     super.initState();
 
     // Create an animation controller for the progress indicator
-    animController = AnimationController(duration: const Duration(seconds: 1), vsync: this);
-  
+    animController =
+        AnimationController(duration: const Duration(seconds: 1), vsync: this);
+
     // Create the animation for the progress indicator on startup
-    animation = Tween(begin: 0.0, end: 1.0)
-      .animate(CurvedAnimation(parent: animController, curve: Curves.easeInOutCubic))
+    animation = Tween(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(parent: animController, curve: Curves.easeInOutCubic))
       ..addListener(() {
         setState(() {});
       });
@@ -51,36 +52,33 @@ class _ArcProgressIndicatorState extends State<ArcProgressIndicator> with Single
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final maxWidth = constraints.maxWidth;
-        final maxHeight = constraints.maxHeight;
-        final minDim = math.min(maxWidth, maxHeight);
-        return Stack(
-          alignment: Alignment.center,
-          children: [
-            Center(
+    return LayoutBuilder(builder: (context, constraints) {
+      final maxWidth = constraints.maxWidth;
+      final maxHeight = constraints.maxHeight;
+      final minDim = math.min(maxWidth, maxHeight);
+      return Stack(
+        alignment: Alignment.center,
+        children: [
+          Center(
               child: CustomPaint(
-                size: Size(maxWidth, maxHeight),
-                painter: ProgressArc(
-                  minArc: widget.minArc,
-                  maxArc: widget.maxArc,
-                  progress: widget.progress * animation.value,
-                  backgroundColor: widget.backgroundColor,
-                  fillColor: widget.fillColor,
-                  strokeWidth: widget.strokeWidth,
-                  gradient: widget.gradient
-                )
-              )
-            ),
-            Padding(
-              padding: EdgeInsets.only(bottom: 16),
-              child: Text(widget.label, textAlign: TextAlign.center, style: TextStyle(fontSize: minDim / 3, fontFamily: 'Nunito')),
-            )
-          ],
-        );
-      }
-    );
+                  size: Size(maxWidth, maxHeight),
+                  painter: ProgressArc(
+                      minArc: widget.minArc,
+                      maxArc: widget.maxArc,
+                      progress: widget.progress * animation.value,
+                      backgroundColor: widget.backgroundColor,
+                      fillColor: widget.fillColor,
+                      strokeWidth: widget.strokeWidth,
+                      gradient: widget.gradient))),
+          Padding(
+            padding: const EdgeInsets.only(bottom: 16),
+            child: Text(widget.label,
+                textAlign: TextAlign.center,
+                style: TextStyle(fontSize: minDim / 3, fontFamily: 'Nunito')),
+          )
+        ],
+      );
+    });
   }
 }
 
@@ -96,15 +94,14 @@ class ProgressArc extends CustomPainter {
   IndicatorGradient? gradient;
   double strokeWidth;
 
-  ProgressArc({
-    required this.minArc,
-    required this.maxArc,
-    required this.progress,
-    required this.backgroundColor,
-    required this.fillColor,
-    required this.strokeWidth,
-    this.gradient
-  });
+  ProgressArc(
+      {required this.minArc,
+      required this.maxArc,
+      required this.progress,
+      required this.backgroundColor,
+      required this.fillColor,
+      required this.strokeWidth,
+      this.gradient});
 
   Paint _createPaint() {
     final paint = Paint();
@@ -125,24 +122,32 @@ class ProgressArc extends CustomPainter {
     final fill = _createPaint();
     fill.color = fillColor;
     if (gradient != null) {
-      fill.shader = ui.Gradient.sweep(Offset(size.width / 2, size.height / 2), gradient!.colours, gradient!.stops);
+      fill.shader = ui.Gradient.sweep(Offset(size.width / 2, size.height / 2),
+          gradient!.colours, gradient!.stops);
     }
 
     final background = _createPaint();
     background.color = backgroundColor;
-    
+
     final shadow = _createPaint();
     shadow.color = Colors.white38;
     shadow.maskFilter = const MaskFilter.blur(BlurStyle.normal, 2);
-    
+
     canvas.translate(size.width / 2, size.height / 2);
     canvas.rotate(centreAngle);
     canvas.translate(-size.width / 2, -size.height / 2);
 
-    canvas.drawArc(rect, startAngle-centreAngle, endAngle - startAngle, false, shadow); // Shadow
-    canvas.drawArc(rect, startAngle-centreAngle, endAngle - startAngle, false, background); // Background
-    canvas.drawArc(rect, startAngle-centreAngle, fillAngle - startAngle, false, fill); // Fill
-    canvas.drawCircle(Offset.fromDirection(fillAngle - centreAngle, size.width / 2).translate(size.width / 2, size.height / 2), strokeWidth / 4, fill);
+    canvas.drawArc(rect, startAngle - centreAngle, endAngle - startAngle, false,
+        shadow); // Shadow
+    canvas.drawArc(rect, startAngle - centreAngle, endAngle - startAngle, false,
+        background); // Background
+    canvas.drawArc(rect, startAngle - centreAngle, fillAngle - startAngle,
+        false, fill); // Fill
+    canvas.drawCircle(
+        Offset.fromDirection(fillAngle - centreAngle, size.width / 2)
+            .translate(size.width / 2, size.height / 2),
+        strokeWidth / 4,
+        fill);
   }
 
   @override

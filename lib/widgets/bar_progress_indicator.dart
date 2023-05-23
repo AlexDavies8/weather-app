@@ -7,30 +7,31 @@ class BarProgressIndicator extends StatefulWidget {
   final Color fillColor;
   final double strokeWidth;
 
-  const BarProgressIndicator({
-    required this.progress,
-    this.backgroundColor = Colors.grey,
-    this.fillColor = Colors.blue,
-    this.strokeWidth = 12,
-    super.key
-  });
+  const BarProgressIndicator(
+      {required this.progress,
+      this.backgroundColor = Colors.grey,
+      this.fillColor = Colors.blue,
+      this.strokeWidth = 12,
+      super.key});
 
   @override
   State<StatefulWidget> createState() => _BarProgressIndicatorState();
 }
 
-class _BarProgressIndicatorState extends State<BarProgressIndicator> with SingleTickerProviderStateMixin {
+class _BarProgressIndicatorState extends State<BarProgressIndicator>
+    with SingleTickerProviderStateMixin {
   late Animation<double> animation;
   late AnimationController animController;
-  
+
   @override
   void initState() {
     super.initState();
 
-    animController = AnimationController(duration: const Duration(seconds: 1), vsync: this);
-  
-    animation = Tween(begin: 0.0, end: 1.0)
-      .animate(CurvedAnimation(parent: animController, curve: Curves.easeInOutCubic))
+    animController =
+        AnimationController(duration: const Duration(seconds: 1), vsync: this);
+
+    animation = Tween(begin: 0.0, end: 1.0).animate(
+        CurvedAnimation(parent: animController, curve: Curves.easeInOutCubic))
       ..addListener(() {
         setState(() {});
       });
@@ -39,21 +40,18 @@ class _BarProgressIndicatorState extends State<BarProgressIndicator> with Single
 
   @override
   Widget build(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        final maxWidth = constraints.maxWidth;
-        final maxHeight = constraints.maxHeight;
-        return CustomPaint(
+    return LayoutBuilder(builder: (context, constraints) {
+      final maxWidth = constraints.maxWidth;
+      final maxHeight = constraints.maxHeight;
+      return CustomPaint(
           size: Size(maxWidth, maxHeight),
           painter: ProgressBar(
             progress: widget.progress * animation.value,
             backgroundColor: widget.backgroundColor,
             fillColor: widget.fillColor,
             strokeWidth: widget.strokeWidth,
-          )
-        );
-      }
-    );
+          ));
+    });
   }
 }
 
@@ -85,7 +83,7 @@ class ProgressBar extends CustomPainter {
 
     final background = _createPaint();
     background.color = backgroundColor;
-    
+
     final shadow = _createPaint();
     shadow.color = Colors.white38;
     shadow.maskFilter = const MaskFilter.blur(BlurStyle.normal, 2);

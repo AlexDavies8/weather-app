@@ -20,10 +20,9 @@ class ForecastBloc extends Bloc<ForecastEvent, ForecastState> {
   /// Add a location to the list of locations
   FutureOr<void> _onAddLocation(AddLocation event, emit) {
     return emit(ForecastState(
-      locations: List.from(state.locations)..add(event.location),
-      selectedLocation: state.selectedLocation,
-      forecast: state.forecast
-    ));
+        locations: List.from(state.locations)..add(event.location),
+        selectedLocation: state.selectedLocation,
+        forecast: state.forecast));
   }
 
   /// Remove a location from the list of locations
@@ -33,46 +32,40 @@ class ForecastBloc extends Bloc<ForecastEvent, ForecastState> {
 
     if (state.selectedLocation == event.location) {
       emit(ForecastState(
-        locations: locations,
-        selectedLocation: locations.first,
-        forecast: null
-      ));
+          locations: locations,
+          selectedLocation: locations.first,
+          forecast: null));
       return emit(ForecastState(
-        locations: locations,
-        selectedLocation: locations.first,
-        forecast: await _getForecast(locations.first)
-      ));
+          locations: locations,
+          selectedLocation: locations.first,
+          forecast: await _getForecast(locations.first)));
     }
     return emit(ForecastState(
-      locations: locations,
-      selectedLocation: state.selectedLocation,
-      forecast: state.forecast
-    ));
+        locations: locations,
+        selectedLocation: state.selectedLocation,
+        forecast: state.forecast));
   }
 
   /// Select a location to be the currently selected location
   FutureOr<void> _onSelectLocation(SelectLocation event, emit) async {
     return emit(ForecastState(
-      locations: state.locations,
-      selectedLocation: event.location,
-      forecast: await _getForecast(event.location)
-    ));
+        locations: state.locations,
+        selectedLocation: event.location,
+        forecast: await _getForecast(event.location)));
   }
-
 
   /// Get all data for a given location
   Future<PollenForecast> _getForecast(Location location) async {
     return PollenForecast(
-      current: await _getCurrentData(location.requestLocation),
-      forecast: await _getForecastData(location.requestLocation)
-    );
+        current: await _getCurrentData(location.requestLocation),
+        forecast: await _getForecastData(location.requestLocation));
   }
 
   /// Get the current pollen data for a given location
   Future<PollenData> _getCurrentData(RequestLocation location) {
     if (location is PlacewiseLocation) {
       return _ambeeApi.getPollenPlacewiseCurrent(location.placename);
-    } 
+    }
     if (location is LatLngLocation) {
       return _ambeeApi.getPollenGeospatialCurrent(location.lat, location.lng);
     }
@@ -83,7 +76,7 @@ class ForecastBloc extends Bloc<ForecastEvent, ForecastState> {
   Future<PollenData> _getForecastData(RequestLocation location) {
     if (location is PlacewiseLocation) {
       return _ambeeApi.getPollenFuturePlacewise(location.placename);
-    } 
+    }
     if (location is LatLngLocation) {
       return _ambeeApi.getPollenGeospatialFuture(location.lat, location.lng);
     }

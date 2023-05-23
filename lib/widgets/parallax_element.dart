@@ -10,15 +10,14 @@ class ParallaxElement extends StatelessWidget {
   final double xOffset;
   final double yOffset;
 
-  const ParallaxElement({
-    super.key,
-    required this.child,
-    this.depth = 0.0,
-    this.expandWidth = true,
-    this.expandHeight = false,
-    this.xOffset = 0,
-    this.yOffset = 0
-  });
+  const ParallaxElement(
+      {super.key,
+      required this.child,
+      this.depth = 0.0,
+      this.expandWidth = true,
+      this.expandHeight = false,
+      this.xOffset = 0,
+      this.yOffset = 0});
 
   @override
   Widget build(BuildContext context) {
@@ -33,11 +32,10 @@ class ParallaxElement extends StatelessWidget {
     final adjustedYOffset = yOffset * scaleFactor;
     final y = dz * camera.y + adjustedYOffset;
     return Positioned(
-      left: x,
-      top: y,
-      right: expandWidth ? 0 : null,
-      bottom: expandHeight ? 0 : null,
-      child: child
-    );
+        left: x,
+        top: y,
+        right: expandWidth ? 0 : null,
+        bottom: expandHeight ? 0 : null,
+        child: child);
   }
 }

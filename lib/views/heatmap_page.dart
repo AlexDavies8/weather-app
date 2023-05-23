@@ -28,7 +28,8 @@ class HeatmapPage extends StatelessWidget {
                     InteractiveFlag.drag |
                     InteractiveFlag.flingAnimation |
                     InteractiveFlag.pinchMove |
-                    InteractiveFlag.pinchZoom), // Prevents the user from rotating the map
+                    InteractiveFlag
+                        .pinchZoom), // Prevents the user from rotating the map
             children: [
               // The base map, provided by OpenStreetMap
               TileLayer(

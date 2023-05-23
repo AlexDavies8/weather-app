@@ -9,7 +9,6 @@ import 'package:weather_app/widgets/main_appbar.dart';
 import 'package:weather_app/widgets/parallax_background.dart';
 import 'package:weather_app/widgets/large_indicator.dart';
 import 'package:weather_app/widgets/forecast_card.dart';
-import 'dart:math' as Math;
 
 import '../bloc/forecast/forecast_bloc.dart';
 
@@ -17,10 +16,25 @@ const _greenCol = Color.fromARGB(255, 20, 78, 71);
 const _yellowCol = Color.fromARGB(255, 133, 188, 93);
 const _orangeCol = Color.fromARGB(255, 255, 217, 64);
 const _redCol = Color.fromARGB(255, 200, 52, 69);
-const _arcIndicatorGradient = IndicatorGradient(
-  colours: [_greenCol, _greenCol, _yellowCol, _yellowCol, _orangeCol, _orangeCol, _redCol, _redCol],
-  stops: [0.00, 0.30, 0.30, 0.50, 0.50, 0.70, 0.70, 1.00]
-);
+const _arcIndicatorGradient = IndicatorGradient(colours: [
+  _greenCol,
+  _greenCol,
+  _yellowCol,
+  _yellowCol,
+  _orangeCol,
+  _orangeCol,
+  _redCol,
+  _redCol
+], stops: [
+  0.00,
+  0.30,
+  0.30,
+  0.50,
+  0.50,
+  0.70,
+  0.70,
+  1.00
+]);
 
 const days = [
   "Today",
@@ -35,6 +49,8 @@ const days = [
 
 /// The home page of the app that displays the forecast
 class MainPage extends StatefulWidget {
+  const MainPage({super.key});
+
   @override
   State<StatefulWidget> createState() => _MainPageState();
 }
@@ -44,9 +60,9 @@ class _MainPageState extends State<MainPage> {
 
   bool _onScroll(ScrollNotification notification) {
     WidgetsBinding.instance.addPostFrameCallback((_) => setState(() {
-      scrollOffset = notification.metrics.pixels;
-    }));
-    
+          scrollOffset = notification.metrics.pixels;
+        }));
+
     return true;
   }
 
@@ -56,77 +72,100 @@ class _MainPageState extends State<MainPage> {
 
     return NotificationListener<ScrollNotification>(
       onNotification: _onScroll,
-        child: BlocBuilder<ForecastBloc, ForecastState>(
-            bloc: forecastBloc,
-            builder: (context, state) {
-              if (state.forecast == null) {
-                return const SafeArea(
+      child: BlocBuilder<ForecastBloc, ForecastState>(
+          bloc: forecastBloc,
+          builder: (context, state) {
+            if (state.forecast == null) {
+              return const SafeArea(
                   child: Align(
-                    alignment: Alignment.center,
-                    child: CircularProgressIndicator()
-                  )
-                );
-              }
-              final current = state.forecast!.current.data[0];
-              final forecasts = state.forecast!.forecast.data.groupN(24);
-              final forecastTimes = forecasts.map((g) => g.skip(12).first).map((el) => DateTime.fromMillisecondsSinceEpoch(el.time! * 1000).weekday);
-              final forecastCounts = forecasts
-                .map((g) => g
-                  .map((e) => [e.count.treePollen.toDouble(), e.count.grassPollen.toDouble(), e.count.weedPollen.toDouble()])
-                  .reduce((acc, el) => [acc[0] + el[0], acc[1] + el[1], acc[2] + el[2]])
-                  .map((e) => (e / g.length).toInt()).toList()
-                );
-              final forecastData = [[0, [current.count.treePollen, current.count.grassPollen, current.count.weedPollen]]] + [forecastTimes, forecastCounts].zip().toList();
-              final currentScore = current.count.grassPollen + current.count.treePollen + current.count.weedPollen;
-              return _MainPageWrapper(
+                      alignment: Alignment.center,
+                      child: CircularProgressIndicator()));
+            }
+            final current = state.forecast!.current.data[0];
+            final forecasts = state.forecast!.forecast.data.groupN(24);
+            final forecastTimes = forecasts.map((g) => g.skip(12).first).map(
+                (el) => DateTime.fromMillisecondsSinceEpoch(el.time! * 1000)
+                    .weekday);
+            final forecastCounts = forecasts.map((g) => g
+                .map((e) => [
+                      e.count.treePollen.toDouble(),
+                      e.count.grassPollen.toDouble(),
+                      e.count.weedPollen.toDouble()
+                    ])
+                .reduce((acc, el) =>
+                    [acc[0] + el[0], acc[1] + el[1], acc[2] + el[2]])
+                .map((e) => e ~/ g.length)
+                .toList());
+            final forecastData = [
+                  [
+                    0,
+                    [
+                      current.count.treePollen,
+                      current.count.grassPollen,
+                      current.count.weedPollen
+                    ]
+                  ]
+                ] +
+                [forecastTimes, forecastCounts].zip().toList();
+            final currentScore = current.count.grassPollen +
+                current.count.treePollen +
+                current.count.weedPollen;
+            return _MainPageWrapper(
                 // The wrapper that contains the background and the main content
                 title: state.selectedLocation!.displayName,
                 scrollOffset: scrollOffset,
                 children: [
                   const SizedBox(height: 150),
                   Center(
-                    child: Padding(
-                      // The main indicator that shows the current pollen level
-                      padding: EdgeInsets.all(60),
-                      child: LargeIndicator(min: 0, max: 800, value: currentScore, gradient: _arcIndicatorGradient) 
-                    )
-                  ),
+                      child: Padding(
+                          // The main indicator that shows the current pollen level
+                          padding: const EdgeInsets.all(60),
+                          child: LargeIndicator(
+                              min: 0,
+                              max: 800,
+                              value: currentScore,
+                              gradient: _arcIndicatorGradient))),
                   const SizedBox(height: 132),
                   Padding(
-                    // The indicators that show the current pollen levels for each category
-                    padding: EdgeInsets.all(40),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        CategoryIndicator(value: current.count.treePollen, label: "Trees", icon: Icons.park),
-                        CategoryIndicator(value: current.count.grassPollen, label: "Grasses", icon: Icons.grass),
-                        CategoryIndicator(value: current.count.weedPollen, label: "Weeds", icon: Icons.spa),
-                      ]
-                    )
-                  ),
+                      // The indicators that show the current pollen levels for each category
+                      padding: const EdgeInsets.all(40),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            CategoryIndicator(
+                                value: current.count.treePollen,
+                                label: "Trees",
+                                icon: Icons.park),
+                            CategoryIndicator(
+                                value: current.count.grassPollen,
+                                label: "Grasses",
+                                icon: Icons.grass),
+                            CategoryIndicator(
+                                value: current.count.weedPollen,
+                                label: "Weeds",
+                                icon: Icons.spa),
+                          ])),
                   const SizedBox(height: 12),
                   Container(
                     color: Colors.white24,
                     height: 2,
                   ),
                   Padding(
-                    // The forecast cards that show the pollen levels for the next 3 days
-                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                    child: Column(
-                      children: forecastData.map((data) => ForecastCard(
-                        label: days[data[0] as int],
-                        trees: (data[1] as List<int>)[0],
-                        grasses: (data[1] as List<int>)[1],
-                        weeds: (data[1] as List<int>)[2],
-                      )).toList()
-                    )
-                  )
-                ]
-              );
-            }
-          ),
-      );
+                      // The forecast cards that show the pollen levels for the next 3 days
+                      padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                      child: Column(
+                          children: forecastData
+                              .map((data) => ForecastCard(
+                                    label: days[data[0] as int],
+                                    trees: (data[1] as List<int>)[0],
+                                    grasses: (data[1] as List<int>)[1],
+                                    weeds: (data[1] as List<int>)[2],
+                                  ))
+                              .toList()))
+                ]);
+          }),
+    );
   }
 }
 
@@ -135,26 +174,26 @@ class _MainPageWrapper extends StatelessWidget {
   final double scrollOffset;
   final String title;
 
-  const _MainPageWrapper({required this.children, this.scrollOffset = 0, required this.title});
+  const _MainPageWrapper(
+      {required this.children, this.scrollOffset = 0, required this.title});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      extendBodyBehindAppBar: true,
-      appBar: MainAppBar(title: title),
-      body: Stack(
-        children: [
-          ParallaxBackground(offset: scrollOffset), // The background that moves when the user scrolls
-          Positioned.fill(
-            child: SingleChildScrollView(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
-                children: children,
-              )
-            )
-          )
-        ],
-      )
-    );
+        extendBodyBehindAppBar: true,
+        appBar: MainAppBar(title: title),
+        body: Stack(
+          children: [
+            ParallaxBackground(
+                offset:
+                    scrollOffset), // The background that moves when the user scrolls
+            Positioned.fill(
+                child: SingleChildScrollView(
+                    child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: children,
+            )))
+          ],
+        ));
   }
 }

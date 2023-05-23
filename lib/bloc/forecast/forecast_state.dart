@@ -8,15 +8,11 @@ class ForecastState {
   Location? selectedLocation;
   PollenForecast? forecast;
 
-  ForecastState({
-    required this.locations,
-    required this.selectedLocation,
-    required this.forecast
-  });
+  ForecastState(
+      {required this.locations,
+      required this.selectedLocation,
+      required this.forecast});
 
-  factory ForecastState.empty() => ForecastState(
-    locations: [],
-    selectedLocation: null,
-    forecast: null
-  );
+  factory ForecastState.empty() =>
+      ForecastState(locations: [], selectedLocation: null, forecast: null);
 }

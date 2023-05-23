@@ -12,7 +12,6 @@ import 'package:weather_app/views/main_page.dart';
 import 'package:weather_app/views/settings_page.dart';
 import 'package:weather_app/views/welcome_page.dart';
 import 'package:weather_app/widgets/shared_axis_page_route.dart';
-
 void main() async{
   runApp(const MyApp());
 }
@@ -35,7 +34,8 @@ class MyApp extends StatelessWidget {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.waiting:
-            return Center(child: CircularProgressIndicator());
+            return const Column(
+                children: [CircularProgressIndicator()]);
           default:
             return BlocProvider<ForecastBloc>(
               create: (_) {

@@ -23,7 +23,7 @@ class ForecastCard extends StatelessWidget {
             children: [
               Expanded(
                 flex: 4,
-                child: Text(label, textAlign: TextAlign.right, style: TextStyle(fontFamily: "Nunito", fontSize: 20))
+                child: Text(label, textAlign: TextAlign.center, style: TextStyle(fontFamily: "Nunito", fontWeight: FontWeight.w500, fontSize: 18))
               ),
               Expanded(flex: 1, child: Container()),
               Expanded(

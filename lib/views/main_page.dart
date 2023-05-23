@@ -48,6 +48,24 @@ class _MainPageState extends State<MainPage> {
     
     return true;
   }
+  bool feedback = true;
+  Container _buildEmotionIcon(IconData icon, String label) {
+    return Container(
+      padding: const EdgeInsets.all(0),
+      child:
+        Opacity(
+          opacity: 0.55,
+          child: IconButton(
+            padding: const EdgeInsets.all(0),
+            alignment: Alignment.centerRight,
+            icon: Icon(icon),
+            iconSize: 45,
+            color: _greenCol,
+            onPressed: () => setState (() => feedback = false),
+            )
+        )
+      );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -77,20 +95,58 @@ class _MainPageState extends State<MainPage> {
                 );
               final forecastData = [[0, [current.count.treePollen, current.count.grassPollen, current.count.weedPollen]]] + [forecastTimes, forecastCounts].zip().toList();
               final currentScore = current.count.grassPollen + current.count.treePollen + current.count.weedPollen;
+              final currentRating = currentScore < 200 ? "Low" : currentScore < 400 ? "Medium" : currentScore < 600 ? "High" : "Very High";
               return _MainPageWrapper(
                 title: state.selectedLocation!.displayName,
                 scrollOffset: scrollOffset,
                 children: [
                   const SizedBox(height: 150),
-                  Center(
-                    child: Padding(
-                      padding: EdgeInsets.all(60),
-                      child: LargeIndicator(min: 0, max: 800, value: currentScore, gradient: _arcIndicatorGradient)
+                  Container(
+                    padding: const EdgeInsets.only(top: 60, left: 60, right: 60),
+                    child: Column(
+                      children: [
+                        LargeIndicator(min: 0, max: 800, value: currentScore, gradient: _arcIndicatorGradient),
+                        Text(
+                            currentRating,
+                            style: const TextStyle(
+                            color: Colors.white,
+                            fontSize: 30,
+                            fontWeight: FontWeight.w600,
+                            fontFamily: "Varela"
+                        ),
+                            ),
+                        Visibility(
+                          visible: feedback,
+                          maintainSize: true,
+                          maintainAnimation: true,
+                          maintainState: true,
+                          child: Container(
+                            padding: const EdgeInsets.only(top: 50, left: 30, right: 30),
+                            child: Column(
+                              children: [
+                              Container(
+                                padding: const EdgeInsets.only(bottom: 15),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    _buildEmotionIcon(Icons.sentiment_very_dissatisfied, 'Unhappy'),
+                                    _buildEmotionIcon(Icons.sentiment_satisfied, 'Neutral'),
+                                    _buildEmotionIcon(Icons.sentiment_very_satisfied, 'Happy')
+                                  ],
+                                ),
+                              ),
+                                const Text("How do you feel today?", style: const TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.w400, fontFamily: "Varela"),)
+                              ]
+                            )
+                          )
+                        )
+                      ],
                     )
                   ),
-                  const SizedBox(height: 132),
+                  const SizedBox(height: 50),
                   Padding(
-                    padding: EdgeInsets.all(40),
+                    padding: const EdgeInsets.only(left: 40, right: 40, bottom: 40),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       crossAxisAlignment: CrossAxisAlignment.center,
@@ -107,7 +163,7 @@ class _MainPageState extends State<MainPage> {
                     height: 2,
                   ),
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                    padding: const EdgeInsets.fromLTRB(10, 40, 10, 10),
                     child: Column(
                       children: forecastData.map((data) => ForecastCard(
                         label: days[data[0] as int],

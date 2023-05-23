@@ -31,8 +31,8 @@ class CategoryIndicator extends StatelessWidget {
             alignment: Alignment.center,
             children: [
               SizedBox(
-                width: 70,
-                height: 70,
+                width: 60,
+                height: 60,
                 child: ArcProgressIndicator(
                   (clampedValue - min) / (max - min),
                   label: value.toString(),

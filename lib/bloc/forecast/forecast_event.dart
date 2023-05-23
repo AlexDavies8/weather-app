@@ -1,5 +1,6 @@
 import 'package:weather_app/models/location.dart';
 
+/// The base class for all events concerning the state of the forecast page
 abstract class ForecastEvent {
   const ForecastEvent();
 }

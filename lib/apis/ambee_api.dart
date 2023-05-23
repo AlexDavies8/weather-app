@@ -6,8 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'keys.dart';
 
-const USE_MOCK_DATA = true;
-const MOCK_DATA_PATH = "lib/apis/response_samples/ambee_sample.json";
+// Returns mock data if true to avoid API rate limits
+const useMockData = true;
+const mockDataPath = "lib/apis/response_samples/ambee_sample.json";
 
 /// API class used to make requests to Ambee
 class AmbeeApi {
@@ -16,38 +17,52 @@ class AmbeeApi {
 
   const AmbeeApi();
 
-  /// Get pollen data at a given latitude and longitude
+  /// Get current pollen data at a given latitude and longitude
   Future<PollenData> getPollenGeospatialCurrent(
       int latitude, int longitude) async {
-    final params = <String, String>{"lat": latitude.toString(), "lng": longitude.toString(), "speciesRisk": "false"};
-    var url = Uri.https("api.ambeedata.com", "/latest/pollen/by-lat-lng", params);
+    final params = <String, String>{
+      "lat": latitude.toString(),
+      "lng": longitude.toString(),
+      "speciesRisk": "false"
+    };
+    var url =
+        Uri.https("api.ambeedata.com", "/latest/pollen/by-lat-lng", params);
     return _getPollenInternal(url);
   }
 
-  /// Get pollen data at a given place, given by name
+  /// Get current pollen data at a given place, given by name
   Future<PollenData> getPollenPlacewiseCurrent(String placename) {
-    var url = Uri.https(
-        "api.ambeedata.com", "/latest/pollen/by-place", {"place": placename, "speciesRisk": "false"});
+    var url = Uri.https("api.ambeedata.com", "/latest/pollen/by-place",
+        {"place": placename, "speciesRisk": "false"});
     return _getPollenInternal(url);
   }
 
-  /// Get pollen data for the future at a given latitude and longitude
+  /// Get future pollen data at a given latitude and longitude
   Future<PollenData> getPollenGeospatialFuture(
       int latitude, int longitude) async {
-    final params = <String, String>{"lat": latitude.toString(), "lng": longitude.toString(), "speciesRisk": "false"};
-    var url = Uri.https("api.ambeedata.com", "/forecast/pollen/by-lat-lng", params);
+    final params = <String, String>{
+      "lat": latitude.toString(),
+      "lng": longitude.toString(),
+      "speciesRisk": "false"
+    };
+    var url =
+        Uri.https("api.ambeedata.com", "/forecast/pollen/by-lat-lng", params);
     return _getPollenInternal(url);
   }
 
-  /// Get pollen data for the future at a given place, given by name
+  /// Get future pollen data at a given place, given by name
   Future<PollenData> getPollenFuturePlacewise(String placename) {
-    var url = Uri.https(
-        "api.ambeedata.com", "/forecast/pollen/by-place", {"place": placename, "speciesRisk": "false"});
+    var url = Uri.https("api.ambeedata.com", "/forecast/pollen/by-place",
+        {"place": placename, "speciesRisk": "false"});
     return _getPollenInternal(url);
   }
 
+  /// Makes a request to the Ambee API and returns the parsed response
   Future<PollenData> _getPollenInternal(Uri url) async {
-    if (USE_MOCK_DATA) return PollenData.fromJson(jsonDecode(await rootBundle.loadString(MOCK_DATA_PATH)));
+    if (useMockData) {
+      return PollenData.fromJson(
+          jsonDecode(await rootBundle.loadString(mockDataPath)));
+    }
     var headers = {"x-api-key": apiKey, "Content-type": "application/json"};
     var response = await http.get(url, headers: headers);
     var json = jsonDecode(response.body);
@@ -55,6 +70,7 @@ class AmbeeApi {
   }
 }
 
+/// A class represented the pollen data returned by the Ambee API
 class PollenData {
   String message;
   double lat;
@@ -68,6 +84,7 @@ class PollenData {
     required this.data,
   });
 
+  /// Parses a JSON object into a [PollenData] object
   factory PollenData.fromJson(Map<String, dynamic> json) => PollenData(
         message: json["message"],
         lat: json["lat"]?.toDouble(),
@@ -76,6 +93,7 @@ class PollenData {
       );
 }
 
+/// A class representing a single data point in the Ambee pollen data
 class Datum {
   Count count;
   Risk risk;
@@ -89,14 +107,18 @@ class Datum {
     this.updatedAt,
   });
 
+  /// Parses a JSON object into a [Datum] object
   factory Datum.fromJson(Map<String, dynamic> json) => Datum(
         count: Count.fromJson(json["Count"]),
         risk: Risk.fromJson(json["Risk"]),
         time: json.containsKey("time") ? json["time"] : null,
-        updatedAt: json.containsKey("updatedAt") ? DateTime.parse(json["updatedAt"]) : null,
+        updatedAt: json.containsKey("updatedAt")
+            ? DateTime.parse(json["updatedAt"])
+            : null,
       );
 }
 
+/// A class representing the pollen count for a given species in the Ambee data
 class Count {
   int grassPollen;
   int treePollen;
@@ -108,6 +130,7 @@ class Count {
     required this.weedPollen,
   });
 
+  /// Parses a JSON object into a [Count] object
   factory Count.fromJson(Map<String, dynamic> json) => Count(
         grassPollen: json["grass_pollen"],
         treePollen: json["tree_pollen"],
@@ -115,6 +138,7 @@ class Count {
       );
 }
 
+/// A class representing the pollen risk for all species in the Ambee data
 class Risk {
   Pollen grassPollen;
   Pollen treePollen;
@@ -126,6 +150,7 @@ class Risk {
     required this.weedPollen,
   });
 
+  /// Parses a JSON object into a [Risk] object
   factory Risk.fromJson(Map<String, dynamic> json) => Risk(
         grassPollen: pollenValues.map[json["grass_pollen"]]!,
         treePollen: pollenValues.map[json["tree_pollen"]]!,
@@ -133,8 +158,10 @@ class Risk {
       );
 }
 
+/// An enum representing the pollen risk
 enum Pollen { low, moderate, high, veryHigh }
 
+/// A map of pollen values to enums
 final pollenValues = EnumValues({
   "Low": Pollen.low,
   "Moderate": Pollen.moderate,
@@ -142,6 +169,7 @@ final pollenValues = EnumValues({
   "Very High": Pollen.veryHigh
 });
 
+/// A class used to parse enums from JSON
 class EnumValues<T> {
   Map<String, T> map;
   late Map<T, String> reverseMap;

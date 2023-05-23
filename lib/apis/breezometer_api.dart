@@ -1,4 +1,4 @@
-/// A simple API for accessing Breezometer pollen data
+/// An unused, test library with a simple API for accessing Breezometer pollen data
 library breezometer_api;
 
 import 'dart:convert';
@@ -14,7 +14,7 @@ class BreezometerAPI {
 
   const BreezometerAPI();
 
-  // Get pollen data at a given latitude and longitude
+  /// Get pollen data at a given latitude and longitude
   Future<PollenData> getPollenGeospatial(int latitude, int longitude,
       [features]) async {
     var url = Uri.https("api.breezometer.com", "/pollen/v2/forecast/daily", {
@@ -27,6 +27,7 @@ class BreezometerAPI {
     return _getPollenInternal(url);
   }
 
+  /// Returns the URL for a heatmap tile at a given zoom level and coordinates
   String getHeatmapTilesURL(
     int zoom,
     int x,
@@ -36,6 +37,7 @@ class BreezometerAPI {
     return "https://tiles.breezometer.com/v1/pollen/$type/forecast/daily/$zoom/$x/$y.png?key=$apiKey";
   }
 
+  /// Makes a request to the Breezometer API and returns the parsed response
   Future<PollenData> _getPollenInternal(Uri url) async {
     var response = await http.get(url);
     var json = jsonDecode(response.body);
@@ -43,6 +45,7 @@ class BreezometerAPI {
   }
 }
 
+/// A class represented the pollen data returned by the Breezometer API
 class PollenData {
   List<Day> data;
   dynamic error;
@@ -52,12 +55,14 @@ class PollenData {
     this.error,
   });
 
+  /// Parses a JSON object into a [PollenData] object
   factory PollenData.fromJson(Map<String, dynamic> json) => PollenData(
         data: List<Day>.from(json["data"].map((x) => Day.fromJson(x))),
         error: json["error"],
       );
 }
 
+/// A class representing a single day of pollen data in the Breezometer pollen data
 class Day {
   DateTime date;
   Map grass;
@@ -71,6 +76,7 @@ class Day {
     required this.weed,
   });
 
+  /// Parses a JSON object into a [Day] object
   factory Day.fromJson(Map<String, dynamic> json) => Day(
         date: DateTime.parse(json["date"]),
         grass: {

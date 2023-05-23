@@ -34,8 +34,8 @@ class MyApp extends StatelessWidget {
         switch (snapshot.connectionState) {
           case ConnectionState.none:
           case ConnectionState.waiting:
-            return const Column(
-                children: [CircularProgressIndicator()]);
+            return Column(
+                children: const [CircularProgressIndicator()]);
           default:
             return BlocProvider<ForecastBloc>(
               create: (_) {

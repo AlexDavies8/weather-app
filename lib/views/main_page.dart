@@ -51,16 +51,16 @@ class _MainPageState extends State<MainPage> {
   bool feedback = true;
   Container _buildEmotionIcon(IconData icon, String label) {
     return Container(
-      padding: const EdgeInsets.all(0),
+      padding: const EdgeInsets.only(bottom: 20),
       child:
         Opacity(
-          opacity: 0.55,
+          opacity: 1.00,
           child: IconButton(
             padding: const EdgeInsets.all(0),
             alignment: Alignment.centerRight,
             icon: Icon(icon),
             iconSize: 45,
-            color: _greenCol,
+            color: Colors.white,
             onPressed: () => setState (() => feedback = false),
             )
         )
@@ -115,19 +115,17 @@ class _MainPageState extends State<MainPage> {
                             fontFamily: "Varela"
                         ),
                             ),
-                        Visibility(
-                          visible: feedback,
-                          maintainSize: true,
-                          maintainAnimation: true,
-                          maintainState: true,
-                          child: Container(
-                            padding: const EdgeInsets.only(top: 50, left: 30, right: 30),
+                          AnimatedOpacity(
+                            opacity: feedback ? 1 : 0,
+                            duration: const Duration(milliseconds: 300),
+                            child: Container(
+                            padding: const EdgeInsets.only(top: 42, left: 30, right: 30),
                             child: Column(
                               children: [
                               Container(
                                 padding: const EdgeInsets.only(bottom: 15),
                                 child: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  mainAxisAlignment: MainAxisAlignment.spaceAround,
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     _buildEmotionIcon(Icons.sentiment_very_dissatisfied, 'Unhappy'),
